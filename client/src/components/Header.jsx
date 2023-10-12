@@ -9,7 +9,7 @@ const Header = () => {
     <header className="flex justify-between">
           <a href="/" className="">
             <img src='/airbnb.svg' height={100} width={100} className="hidden lg:flex" />
-            <img src="/airbnb-1.svg" height={30} width={30} className="lg:hidden" />
+            <img src="/airbnb-1.svg" height={30} width={30} className="lg:hidden w-8 h-8 my-2" />
           </a>
           <div className="flex border border-gray-500 py-2 px-6 rounded-full gap-2 shadow-md shadow-gray-300">
             <div>Anywhere</div>
@@ -23,18 +23,16 @@ const Header = () => {
             </button>
             </div>
           </div>
-          <Link to={'/login'}>
-          <div className="flex border border-gray-500 py-1 px-6 rounded-full gap-2 shadow-md shadow-gray-300">
-            <RxHamburgerMenu className="relative top-1" size={20} />
-            <div className="flex rounded-full border border-gray-300 bg-slate-400 p-1">
-              <RiAccountBoxFill className="" size={20} />
-              {/* {!!user &&(
-                <div className="p-1 relative -top-2">
+          <Link to={user? '/account' : 'login'} className="flex items-center gap-2 border border-gray-300 rounded-full py-2 px-4 ">
+            <RxHamburgerMenu className="w-6 h-6"/>
+            <div className="bg-gray-500 text-white rounded-full border border-gray-500 overflow-hidden">
+              <RiAccountBoxFill className="w-6 h-6"/>
+            </div>
+            {!!user &&(
+                <div className="">
                   {user.name}
                 </div>
-              )} */}
-            </div>
-          </div>
+              )}
           </Link>
         </header>
   )

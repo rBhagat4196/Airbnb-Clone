@@ -6,19 +6,31 @@ import User from "./models/userModel.js"
 import bcrypt from 'bcrypt'
 import cookieParser from 'cookie-parser';
 import Jwt  from 'jsonwebtoken';
+
+// initializers
 dotenv.config();
 const app = express();
+
+
+// options
 const corsOptions = {
     credentials: true,
     origin: 'http://localhost:5173',
 };
+const salt = await bcrypt.genSalt();
 
+
+// middlewares
 app.use(express.json())
 app.use(cors(corsOptions));
 app.use(cookieParser())
 
+
+// Database connection
 connectDb(process.env.MONGO_URL);
-const salt = await bcrypt.genSalt();
+
+
+// endpoints or request
 app.post('/register',async(req,res)=>{
     try{
 
@@ -63,14 +75,13 @@ app.post('/login',async(req,res)=>{
         res.status(422).json(error);
     }
 });
-
 app.get('/profile',(req,res)=>{
     const {token} = req.cookies;
     if (token) {
         Jwt.verify(token, process.env.SECRET_TOKEN, {}, async (err, userData) => {
           if (err) throw err;
           const {name,email,_id} = await User.findById(userData.id);
-          console.log(userData)
+        //   console.log(userData)
           res.json({name,email,_id});
         });
       } else {
@@ -78,6 +89,9 @@ app.get('/profile',(req,res)=>{
     }
 })
 
+app.post('/logout',(req,res)=>{
+    res.cookie('token','').json(true);
+})
 
 app.listen(4000, () => {
   console.log('Server is running on port 4000');
