@@ -4,6 +4,8 @@ import connectDb from './config/connectDb.js';
 import dotenv from "dotenv"
 import User from "./models/userModel.js"
 import bcrypt from 'bcrypt'
+import cookieParser from 'cookie-parser';
+import Jwt  from 'jsonwebtoken';
 dotenv.config();
 const app = express();
 const corsOptions = {
@@ -13,6 +15,7 @@ const corsOptions = {
 
 app.use(express.json())
 app.use(cors(corsOptions));
+app.use(cookieParser())
 
 connectDb(process.env.MONGO_URL);
 const salt = await bcrypt.genSalt();
@@ -36,9 +39,17 @@ app.post('/login',async(req,res)=>{
         const { email, password } = req.body;
         const data = await User.findOne({ email });
         if(data){
+
             const isOk = bcrypt.compareSync(password,data.password);
             if(isOk){
-                res.json('ok')
+                const cookieOptions = {
+                    expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days from now
+                    httpOnly: true,
+                  };
+                Jwt.sign({email:data.email , id : data._id},process.env.SECRET_TOKEN,{},(err,token)=>{
+                    if(err) throw err;
+                    res.cookie('token',token,cookieOptions).json(data);
+                });
             }
             else{
                 res.status(422).json('Password Incorrect');
@@ -50,6 +61,20 @@ app.post('/login',async(req,res)=>{
     }
     catch(error){
         res.status(422).json(error);
+    }
+});
+
+app.get('/profile',(req,res)=>{
+    const {token} = req.cookies;
+    if (token) {
+        Jwt.verify(token, process.env.SECRET_TOKEN, {}, async (err, userData) => {
+          if (err) throw err;
+          const {name,email,_id} = await User.findById(userData.id);
+          console.log(userData)
+          res.json({name,email,_id});
+        });
+      } else {
+        res.json(null);
     }
 })
 
