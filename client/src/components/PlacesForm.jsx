@@ -1,81 +1,69 @@
-import { Link, Navigate, useParams } from "react-router-dom"
-import {AiOutlinePlusCircle} from "react-icons/ai"
+import { Navigate} from "react-router-dom"
 import {BsUpload} from "react-icons/bs"
 import Perks from "./Perks"
 import { useState } from "react"
 import axios from "axios";
 const PlacesForm = () => {
-  const {action} = useParams();
-  const [title,setTitle] = useState('');
-  const [address,setAddress] = useState('');
-  const [addedPhotos,setAddedPhotos] = useState([]);
-  const [description,setDescription] = useState('');
-  const [perks,setPerks] = useState([]);
-  const [extraInfo,setExtraInfo] = useState('');
-  const [checkIn,setCheckIn] = useState('');
-  const [checkOut,setCheckOut] = useState('');
-  const [maxGuests,setMaxGuests] = useState(1);
-//   const [price,setPrice] = useState(100);
-  const [redirect,setRedirect] = useState(false);
-  const [photoLink,setPhotoLink] = useState('');
-
-  const addPhotoByLink=async(e)=>{
-    e.preventDefault();
-    const {data:filename}=await axios.post('/upload-by-link',{link : photoLink})
-    setAddedPhotos(prev =>{
-        return [...prev,filename];
-    })
-    setPhotoLink('');
-  }
-  const uploadFromDevice = (e)=>{
-    const files = e.target.files;
-    const data = new FormData();
-    for(let i=0;i<files.length ;i++){
-        data.append('photos',files[i])
+    const [title,setTitle] = useState('');
+    const [address,setAddress] = useState('');
+    const [addedPhotos,setAddedPhotos] = useState([]);
+    const [description,setDescription] = useState('');
+    const [perks,setPerks] = useState([]);
+    const [extraInfo,setExtraInfo] = useState('');
+    const [checkIn,setCheckIn] = useState('');
+    const [checkOut,setCheckOut] = useState('');
+    const [maxGuests,setMaxGuests] = useState(1);
+  //   const [price,setPrice] = useState(100);
+    const [redirect,setRedirect] = useState(false);
+    const [photoLink,setPhotoLink] = useState('');
+  
+    const addPhotoByLink=async(e)=>{
+      e.preventDefault();
+      const {data:filename}=await axios.post('/upload-by-link',{link : photoLink})
+      setAddedPhotos(prev =>{
+          return [...prev,filename];
+      })
+      setPhotoLink('');
     }
-    axios.post('/upload',data,{
-        headers:{'Content-Type':'multipart/form-data'}
-    }).then(response =>{
-        console.log(data);
-        const {data : filenames} =response;
-        setAddedPhotos(prev =>{
-            return [...prev , ...filenames];
-        })
-    }) 
-  }
-
-  const addNewPlace = async(e)=>{
-    e.preventDefault();
-    await axios.post('/places',{
-        title,
-        address,
-        addedPhotos,
-        description,
-        perks,
-        extraInfo,
-        checkIn,
-        checkOut,
-        maxGuests
-    })
-    setRedirect(true)
-  }
-
-  if(redirect){
-    return <Navigate to={'/account/accommodation'}/>
-  }
-
+    const uploadFromDevice = (e)=>{
+      const files = e.target.files;
+      const data = new FormData();
+      for(let i=0;i<files.length ;i++){
+          data.append('photos',files[i])
+      }
+      axios.post('/upload',data,{
+          headers:{'Content-Type':'multipart/form-data'}
+      }).then(response =>{
+          console.log(data);
+          const {data : filenames} =response;
+          setAddedPhotos(prev =>{
+              return [...prev , ...filenames];
+          })
+      }) 
+    }
+  
+    const addNewPlace = async(e)=>{
+      e.preventDefault();
+      await axios.post('/places',{
+          title,
+          address,
+          addedPhotos,
+          description,
+          perks,
+          extraInfo,
+          checkIn,
+          checkOut,
+          maxGuests
+      })
+      setRedirect(true)
+    }
+  
+    if(redirect){
+      return <Navigate to={'/account/accommodation'}/>
+    }
   return (
-    <div className="mt-4">
-        {action != 'new' && (
-      <div className="text-center mt-4">
-        <Link to={'/account/accommodation/new'} className="inline-flex gap-2 bg-red-400 py-2 px-6 rounded-full text-white">
-            <AiOutlinePlusCircle className="relative w-6 h-6"/>
-            Add New Places
-        </Link>
-      </div>
-        )}
-      {action == 'new' && (
-        <form onSubmit={addNewPlace}>
+    <div>
+      <form onSubmit={addNewPlace}>
             <h1 className="text-2xl mt-4">
                 Title
             </h1>
@@ -160,7 +148,6 @@ const PlacesForm = () => {
             
             <button className="w-full p-1 mt-2 rounded-xl text-white font-bold text-center bg-red-400">Save</button>
         </form>
-      )}
     </div>
   )
 }

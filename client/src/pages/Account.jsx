@@ -1,11 +1,9 @@
 import axios from "axios";
 import { useUserContext } from "../context/userContext"
-import { Link, Navigate, useParams } from "react-router-dom";
+import {  Navigate, useParams } from "react-router-dom";
 import { useState } from "react";
-import PlacesForm from "../components/PlacesForm";
-import {AiOutlineUser} from "react-icons/ai"
-import {BsListStars} from "react-icons/bs"
-import {BiBuildingHouse} from "react-icons/bi"
+import AccountNavbar from "../components/AccountNavbar";
+
 const Account = () => {
   const {user,ready} = useUserContext();
   const [redirect,SetRedirect] = useState(false);
@@ -17,11 +15,7 @@ const Account = () => {
   if(subpage == undefined){
     subpage = 'profile'
   }
-  const checkActive = (tab)=>{
-    if(tab == subpage){
-      return 'bg-red-400'
-    }
-  }
+ 
   const logOut = async()=>{
     try{
       await axios.post('/logout');
@@ -37,20 +31,7 @@ const Account = () => {
   }
   return (
     <div>
-      <nav className="flex w-full mt-8 gap-8 justify-center">
-        <Link to={'/account'} className={`${checkActive('profile')} py-2 px-6 rounded-full flex gap-1`} >
-          <AiOutlineUser className="w-6 h-6"/>
-          My profile
-        </Link>
-        <Link to={'/account/bookings'} className={`${checkActive('bookings')} py-2 px-6 rounded-full flex gap-1`  }>
-          <BsListStars className="w-6 h-6"/>
-          My bookings
-        </Link>
-        <Link to={'/account/accommodation'} className={`${checkActive('accommodation')} py-2 px-6 rounded-full flex gap-1`  }>
-          <BiBuildingHouse className="w-6 h-6"/>
-          My accommodation
-        </Link>
-      </nav>
+      <AccountNavbar/>
       {subpage == 'profile' && (
         <div className="text-center max-w-lg mx-auto">
           Logged in as {user.name} ({user.email}) 
@@ -59,9 +40,6 @@ const Account = () => {
               Logout
               </button>
           </div>
-      )}
-      {subpage == 'accommodation' && (
-        <PlacesForm/>
       )}
     </div>
   )
