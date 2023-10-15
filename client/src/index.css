@@ -2,6 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-input[type="text"],input[type="password"]{
-  @apply w-full border border-blue-300 my-2 p-2 px-3 rounded-full;
+input[type="text"],input[type="password"],input[type="number"],textarea{
+  @apply w-full border border-blue-300 my-2 p-2 px-3 rounded-2xl;
 }

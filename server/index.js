@@ -6,7 +6,14 @@ import User from "./models/userModel.js"
 import bcrypt from 'bcrypt'
 import cookieParser from 'cookie-parser';
 import Jwt  from 'jsonwebtoken';
-
+import imageDownloader from 'image-downloader';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+import multer from 'multer';
+import fs from 'fs'
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+import Places from './models/placeModel.js';
 // initializers
 dotenv.config();
 const app = express();
@@ -24,8 +31,7 @@ const salt = await bcrypt.genSalt();
 app.use(express.json())
 app.use(cors(corsOptions));
 app.use(cookieParser())
-
-
+app.use('/uploads',express.static(__dirname+'/uploads/'))
 // Database connection
 connectDb(process.env.MONGO_URL);
 
@@ -93,6 +99,71 @@ app.post('/logout',(req,res)=>{
     res.cookie('token','').json(true);
 })
 
+app.post("/upload-by-link",async(req,res)=>{
+    const { link } = req.body;
+
+    if (!link) {
+      return res.status(400).json('The "link" parameter is required.');
+    }
+  
+    const newName = 'photo'+Date.now() + '.jpg';
+    const uploadPath = __dirname+'/uploads/'+newName;
+
+    try {
+      await imageDownloader.image({
+        url: link,
+        dest: uploadPath,
+      });
+      res.json(newName);
+    } catch (error) {
+      console.error('Error downloading image:', error);
+      res.status(500).json('An error occurred while downloading the image.');
+    }
+});
+
+const multerMiddlewares = multer({dest:'uploads/'});
+
+app.post('/upload',multerMiddlewares.array('photos',20),(req,res)=>{
+  const uploadedFiles = [];
+  for(let i=0;i<req.files.length;i++){
+    const {path,originalname,filename}=req.files[i];
+    const parts = originalname.split('.');
+    const ext = parts[parts.length-1];
+    const newPath = path+'.'+ext;
+    const newFileName= filename+'.'+ext;
+    fs.renameSync(path,newPath);
+    uploadedFiles.push(newFileName);
+  }
+  res.json(uploadedFiles)
+})
+
+
+app.post('/places',async(req,res)=>{
+  const {title,address,addedPhotos , description,
+  perks,extraInfo,checkIn,checkOut,maxGuests} = req.body
+  const {token} = req.cookies;
+    if (token) {
+        Jwt.verify(token, process.env.SECRET_TOKEN, {}, async (err, userData) => {
+          if (err) throw err;
+          const newPlace = new Places({
+            owner : userData._id,
+            title,
+            address,
+            photos : addedPhotos , 
+            description,
+            perks,
+            extraInfo,
+            checkIn,
+            checkOut,
+            maxGuests,
+          });
+          res.json(newPlace);
+          newPlace.save();
+        });
+      } else {
+        res.json(null);
+    }
+})
 app.listen(4000, () => {
   console.log('Server is running on port 4000');
 });
