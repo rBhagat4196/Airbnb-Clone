@@ -6,6 +6,7 @@ import AccountNavbar from "../components/AccountNavbar";
 
 const Account = () => {
   const {user,ready} = useUserContext();
+  
   const [redirect,SetRedirect] = useState(false);
   const {setUser} = useUserContext();
   let {subpage} = useParams();

@@ -1,25 +1,24 @@
+import PropTypes from 'prop-types';
 const Perks = ({selected,onChange}) => {
     const handleClick = (e)=>{
         const {checked,name} = e.target
-        console.log(e.target.name);
         if(checked){
             onChange([...selected,name]);
         }
         else{
             onChange([...selected.filter(selectedName => selectedName !== name)])
         }
-        console.log(selected)
     }
   return (
     <div>
       <div className="grid gap-2 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                 <label className="border p-4 flex rounded-xl gap-2 items-center">
-                    <input type="checkbox" name='Furnished' onChange={handleClick}/>
+                    <input type="checkbox" checked = {selected.includes('Furnished')} name='Furnished' onChange={handleClick}/>
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" id="sofa"><path d="M5.076 5C3.386 5 2 6.357 2 8.033v2.018c-1.143.239-2 1.279-2 2.506v10.23c0 1.146.883 2.085 2 2.192V26.5a.5.5 0 0 0 .5.5h2a.5.5 0 0 0 .5-.5V25h22v1.5a.5.5 0 0 0 .5.5h2a.5.5 0 0 0 .5-.5v-1.521a2.209 2.209 0 0 0 2-2.192v-10.23c0-1.227-.857-2.267-2-2.506V8.033C30 6.357 28.615 5 26.924 5Zm0 1.012h21.848c1.157 0 2.064.898 2.064 2.021v2.02C27.851 10.296 27 11.334 27 12.557V16H4.96c-.113.147.035.404.04.46v-3.903c0-1.223-.852-2.26-1.988-2.504v-2.02c0-1.123.907-2.021 2.064-2.021zM2.5 11c.832 0 1.5.678 1.5 1.557V24H2.205C1.53 24 1 23.47 1 22.787v-10.23C1 11.678 1.668 11 2.5 11Zm27 0c.832 0 1.5.678 1.5 1.557v10.23C31 23.47 30.47 24 29.795 24H28V12.557c0-.879.668-1.557 1.5-1.557ZM5 17h22v2.012H5zm0 3.012h22V24H5ZM3 25h1v1H3zm25 0h1v1h-1z" color="#000" overflow="visible"></path></svg>
                     <span>Fully Furnished</span>
                 </label>
                 <label className="border p-4 flex rounded-xl gap-2 items-center">
-                    <input type="checkbox" name='Wifi' onChange={handleClick}/>
+                    <input type="checkbox" checked = {selected.includes('Wifi')} name='Wifi' onChange={handleClick}/>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
   <path strokeLinecap="round" strokeLinejoin="round" d="M8.288 15.038a5.25 5.25 0 017.424 0M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0M1.924 8.674c5.565-5.565 14.587-5.565 20.152 0M12.53 18.22l-.53.53-.53-.53a.75.75 0 011.06 0z" />
 </svg>
@@ -27,7 +26,7 @@ const Perks = ({selected,onChange}) => {
                     <span>Wifi</span>
                 </label>
                 <label className="border p-4 flex rounded-xl gap-2 items-center">
-                    <input type="checkbox" name='Parking' onChange={handleClick}/>
+                    <input type="checkbox" checked = {selected.includes('Parking')} name='Parking' onChange={handleClick}/>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
   <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
 </svg>
@@ -35,22 +34,22 @@ const Perks = ({selected,onChange}) => {
                     <span>Free parking place</span>
                 </label >
                 <label className="border p-4 flex rounded-xl gap-2 items-center">
-                    <input type="checkbox" name='Pet' onChange={handleClick}/>
+                    <input type="checkbox" checked = {selected.includes('Pet')} name='Pet' onChange={handleClick}/>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" id="pets"><path fill="none" d="M0 0h24v24H0V0z"></path><circle cx="4.5" cy="9.5" r="2.5"></circle><circle cx="9" cy="5.5" r="2.5"></circle><circle cx="15" cy="5.5" r="2.5"></circle><circle cx="19.5" cy="9.5" r="2.5"></circle><path d="M17.34 14.86c-.87-1.02-1.6-1.89-2.48-2.91-.46-.54-1.05-1.08-1.75-1.32-.11-.04-.22-.07-.33-.09-.25-.04-.52-.04-.78-.04s-.53 0-.79.05c-.11.02-.22.05-.33.09-.7.24-1.28.78-1.75 1.32-.87 1.02-1.6 1.89-2.48 2.91-1.31 1.31-2.92 2.76-2.62 4.79.29 1.02 1.02 2.03 2.33 2.32.73.15 3.06-.44 5.54-.44h.18c2.48 0 4.81.58 5.54.44 1.31-.29 2.04-1.31 2.33-2.32.31-2.04-1.3-3.49-2.61-4.8z"></path></svg>
                     <span>Pet Services</span>
                 </label>
                 <label className="border p-4 flex rounded-xl gap-2 items-center">
-                    <input type="checkbox" name='Entertainment' onChange={handleClick}/>
+                    <input type="checkbox" checked = {selected.includes('Entertainment')} name='Entertainment' onChange={handleClick}/>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" id="movie-folder" className="w-6 h-6"><g data-name="Movie folder"><path d="M59,11H43.54L40.43,6.34A2.993,2.993,0,0,0,37.93,5H25a3.009,3.009,0,0,0-3-3H5A3.009,3.009,0,0,0,2,5V55a3.009,3.009,0,0,0,3,3H59a3.009,3.009,0,0,0,3-3V14A3.009,3.009,0,0,0,59,11ZM25,7H37.93a1,1,0,0,1,.83.45L41.13,11H25ZM4,5A1,1,0,0,1,5,4H22a1,1,0,0,1,1,1v6H4ZM60,55a1,1,0,0,1-1,1H8V18H60Zm0-39H7a1,1,0,0,0-1,1V56H5a1,1,0,0,1-1-1V13H59a1,1,0,0,1,1,1Z"></path><path d="M28.515,38.875a1,1,0,0,0,1.015-.027l8-5a1,1,0,0,0,0-1.7l-8-5A1,1,0,0,0,28,28V38A1,1,0,0,0,28.515,38.875ZM30,29.805,35.113,33,30,36.2Z"></path><rect width="2" height="4" x="14" y="46"></rect><rect width="2" height="4" x="17" y="46"></rect><polygon points="49 47 49 49 39 49 39 50 37 50 37 49 21 49 21 47 37 47 37 46 39 46 39 47 49 47"></polygon><path d="M32,43A10,10,0,1,0,22,33,10.011,10.011,0,0,0,32,43Zm0-18a8,8,0,1,1-8,8A8.009,8.009,0,0,1,32,25Z"></path></g></svg>
                     <span>Entertainment</span>
                 </label>
                 <label className="border p-4 flex rounded-xl gap-2 items-center">
-                    <input type="checkbox" name='Balcony' onChange={handleClick}/>
+                    <input type="checkbox" checked = {selected.includes('Balcony')} name='Balcony' onChange={handleClick}/>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" id="patio" className="w-6 h-6"><path d="M176,448H38a16,16,0,0,1-16-16V376a16,16,0,0,1,16-16H176a16,16,0,0,1,16,16v56A16,16,0,0,1,176,448ZM54,416H160V392H54Z"></path><path d="M38 512a16 16 0 01-16-16V432a16 16 0 0132 0v64A16 16 0 0138 512zM38 392a16 16 0 01-15.8-13.58l-22-144a16 16 0 0131.64-4.84l22 144A16 16 0 0138 392zM176 512a16 16 0 01-16-16V432a16 16 0 0132 0v64A16 16 0 01176 512zM474 448H336a16 16 0 01-16-16V376a16 16 0 0116-16H474a16 16 0 0116 16v56A16 16 0 01474 448zM352 416H458V392H352z"></path><path d="M474 512a16 16 0 01-16-16V432a16 16 0 0132 0v64A16 16 0 01474 512zM474 392a16 16 0 01-15.84-18.42l22-144a16 16 0 0131.64 4.84l-22 144A16 16 0 01474 392zM336 512a16 16 0 01-16-16V432a16 16 0 0132 0v64A16 16 0 01336 512zM256 512a16 16 0 01-16-16V132a16 16 0 0132 0V496A16 16 0 01256 512z"></path><path d="M283 512H229a16 16 0 010-32h54a16 16 0 010 32zM377 328H135a16 16 0 010-32H377a16 16 0 010 32zM448 148H64a16 16 0 01-14-8.23l-20-36A16 16 0 0138.35 81l212-80a16 16 0 0111.3 0l212 80A16 16 0 01482 103.77l-20 36A16 16 0 01448 148zM73.41 116H438.59L445 104.43 256 33.1 67 104.43z"></path><path d="M474 376v56H396.25a96.14 96.14 0 0043.9-56zM176 376v56H98.25a96.14 96.14 0 0043.9-56zM468 96l-20 36H309.76a105.19 105.19 0 0063.89-71.6z" opacity=".2"></path><path d="M160,148c-13.36,0-21-15.7-12.32-26.2l96-116a16,16,0,0,1,24.66,20.4l-96,116A16,16,0,0,1,160,148Z"></path><path d="M352,148a16,16,0,0,1-12.34-5.8l-96-116A16,16,0,1,1,268.33,5.8l96,116C373,132.3,365.37,148,352,148Z"></path></svg>
                     <span>Balcony</span>
                 </label>
                 <label className="border p-4 flex rounded-xl gap-2 items-center">
-                    <input type="checkbox" name='Laundry' onChange={handleClick}/>
+                    <input type="checkbox" checked = {selected.includes('Laundry')} name='Laundry' onChange={handleClick}/>
                     <svg xmlns="http://www.w3.org/2000/svg"  enableBackground="new 0 0 64 64" viewBox="0 0 64 64" id="laundry" className="w-6 h-6"><path d="M11.019 8h-.01c-1.104 0-1.995.896-1.995 2s.9 2 2.005 2c1.105 0 2-.896 2-2S12.124 8 11.019 8zM18.02 8h-.01c-1.104 0-1.995.896-1.995 2s.9 2 2.005 2c1.105 0 2-.896 2-2S19.125 8 18.02 8zM45 8h-6c-1.104 0-2 .896-2 2s.896 2 2 2h6c1.104 0 2-.896 2-2S46.104 8 45 8z"></path><path d="M60,45h-6V17V7c0-3.309-2.691-6-6-6H8C4.691,1,2,3.691,2,7v10v40c0,3.309,2.691,6,6,6h52c1.654,0,3-1.346,3-3V48
 			C63,46.346,61.654,45,60,45z M6,7c0-1.103,0.897-2,2-2h40c1.103,0,2,0.897,2,2v8H6V7z M6,57V19h44v26h-6.099
 			C44.62,43.092,45,41.063,45,39c0-9.374-7.626-17-17-17c-6.959,0-13.203,4.269-15.774,10.685C10.311,33.688,9,35.692,9,38v2
@@ -63,27 +62,27 @@ const Perks = ({selected,onChange}) => {
                     <span>Laundry</span>
                 </label>
                 <label className="border p-4 flex rounded-xl gap-2 items-center">
-                    <input type="checkbox" name='Electricity' onChange={handleClick}/>
+                    <input type="checkbox" checked = {selected.includes('Electricity')} name='Electricity' onChange={handleClick}/>
                     <svg xmlns="http://www.w3.org/2000/svg" width="27.288" className="w-6 h-6" height="42.144" fillRule="evenodd" strokeLinecap="round" strokeLinejoin="round" strokeMiterlimit="1.5" clipRule="evenodd" viewBox="0 0 27.288 42.144" id="ctricity"><path  fillRule="nonzero" d="m 24.847449,0.01438732 a 1.0001,1.0001 0 0 0 -0.873047,0.2753906 L 0.29666786,23.699934 a 1.0001,1.0001 0 0 0 0.71484404,1.710938 l 9.2187501,-0.09961 -8.4023441,15.353516 a 1.0001,1.0001 0 0 0 1.587891,1.183594 L 26.99784,18.0222 A 1.0001,1.0001 0 0 0 26.238074,16.319075 L 17.189246,16.76634 25.554481,1.4811841 A 1.0001,1.0001 0 0 0 24.847449,0.01438732 Z M 20.517371,6.5202466 14.577918,17.371809 a 1.0001,1.0001 0 0 0 0.925781,1.478516 L 23.767371,18.444075 6.9958869,35.389387 12.804481,24.774153 a 1.0001,1.0001 0 0 0 -0.886719,-1.480469 l -8.4570311,0.08984 z" clipRule="nonzero" color="#000"></path></svg>
                     <span>24/7 Electricity Supply</span>
                 </label>
                 <label className="border p-4 flex rounded-xl gap-2 items-center">
-                    <input type="checkbox" name='Security' onChange={handleClick}/>
+                    <input type="checkbox" checked = {selected.includes('Security')} name='Security' onChange={handleClick}/>
                     <svg xmlns="http://www.w3.org/2000/svg" data-name="Layer 2"  className="w-6 h-6" viewBox="0 0 64 64" id="security"><path d="M25.963 39.852c.063.818 1.711 20.093 15.722 24.109a.989.989 0 0 0 .55 0c14.011-4.016 15.659-23.291 15.722-24.109a1 1 0 0 0-.585-.989l-15-6.774a1 1 0 0 0-.824 0l-15 6.774a1 1 0 0 0-.585.989Zm16-5.755 13.927 6.29c-.424 3.385-2.9 18.176-13.927 21.57-11.032-3.394-13.5-18.185-13.927-21.57Z"></path><path d="M8.44 64h24.52v-2H8.44a1.482 1.482 0 0 1-1.48-1.48V47.17A15.187 15.187 0 0 1 22.13 32h7.66a14.718 14.718 0 0 1 4.748.767l.644-1.894A16.739 16.739 0 0 0 29.79 30h-7.66A17.19 17.19 0 0 0 4.96 47.17v13.35A3.484 3.484 0 0 0 8.44 64zm16.52-40h2a10.011 10.011 0 0 0 10-10v-4a10.011 10.011 0 0 0-10-10h-2a10.011 10.011 0 0 0-10 10v4a10.011 10.011 0 0 0 10 10zm-8-14a8.009 8.009 0 0 1 8-8h2a8.009 8.009 0 0 1 8 8v4a8.009 8.009 0 0 1-8 8h-2a8.009 8.009 0 0 1-8-8z"></path></svg>
                     <span>Security</span>
                 </label>
                 <label className="border p-4 flex rounded-xl gap-2 items-center">
-                    <input type="checkbox" name='Sports&Games' onChange={handleClick}/>
+                    <input type="checkbox" checked = {selected.includes('Sports&Games')} name='Sports&Games' onChange={handleClick}/>
                     <svg xmlns="http://www.w3.org/2000/svg"  className="w-6 h-6" data-name="Layer 1" viewBox="0 0 64 64" id="basket-ring"><path d="M24.58 47.68a1.49 1.49 0 0 0 1.06.44 1.53 1.53 0 0 0 1.06-.44l1.06-1.06 2.12 2.12-1.06 1.06a1.49 1.49 0 0 0 0 2.12 1.5 1.5 0 0 0 2.12 0L32 50.86l1.06 1.06a1.5 1.5 0 0 0 2.12 0 1.49 1.49 0 0 0 0-2.12l-1.06-1.06 2.12-2.12 1.06 1.06a1.53 1.53 0 0 0 1.06.44 1.5 1.5 0 0 0 1.06-2.56l-1.06-1.06 1.06-1.06a1.5 1.5 0 1 0-2.12-2.12l-1.06 1.06-2.12-2.12 1.06-1.06a1.5 1.5 0 1 0-2.12-2.12L32 38.14l-1.06-1.06a1.5 1.5 0 0 0-2.12 2.12l1.06 1.06-2.12 2.12-1.06-1.06a1.5 1.5 0 1 0-2.12 2.12l1.06 1.06-1.06 1.06a1.49 1.49 0 0 0 0 2.12Zm7.42-5.3 2.12 2.12L32 46.62l-2.12-2.12Z"></path><path d="M59.5 3h-55A1.5 1.5 0 0 0 3 4.5v42A1.5 1.5 0 0 0 4.5 48h14.17L21 59.79a1.5 1.5 0 0 0 3-.58l-2.6-13L18.33 31h27.34l-3 15.19-2.6 13A1.49 1.49 0 0 0 41.21 61a1.43 1.43 0 0 0 .29 0 1.5 1.5 0 0 0 1.5-1.21L45.33 48H59.5a1.5 1.5 0 0 0 1.5-1.5v-42A1.5 1.5 0 0 0 59.5 3ZM58 45H45.93l2.8-14H51a1.5 1.5 0 0 0 0-3H13a1.5 1.5 0 0 0 0 3h2.27l2.8 14H6V6h52Z"></path></svg>
                     <span>Sports and Games</span>
                 </label>
                 <label className="border p-4 flex rounded-xl gap-2 items-center">
-                    <input type="checkbox" name='Housekeeping' onChange={handleClick}/>
+                    <input type="checkbox" checked = {selected.includes('Housekeeping')} name='Housekeeping' onChange={handleClick}/>
                     <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fillRule="evenodd" strokeLinejoin="round" strokeMiterlimit="2" clipRule="evenodd" viewBox="0 0 129 129" id="vacuum-cleaner"><rect width="128" height="128" x=".312" y=".102" fill="none"></rect><path d="M32.766 54.803c.869-.609 1.46-1.538 1.644-2.582.184-1.045-.054-2.12-.663-2.989-4.662-6.654-15.192-21.682-19.854-28.336-.609-.869-1.538-1.46-2.583-1.644-1.044-.184-2.12.054-2.988.663-1.426.999-3.094 2.168-4.519 3.167-.869.608-1.461 1.537-1.645 2.582-.184 1.045.055 2.12.664 2.989 4.662 6.654 15.192 21.682 19.854 28.336.609.869 1.538 1.46 2.582 1.644 1.045.184 2.12-.055 2.989-.664 1.426-.999 3.093-2.167 4.519-3.166zM85.05 108.805l-51.306 0c-1.071 2.169-1.653 4.586-1.653 7.081 0 1.894 0 3.808 0 5.41 0 1.061.422 2.079 1.172 2.829.75.75 1.768 1.171 2.828 1.171l58.111 0c-5.237-3.715-8.762-9.687-9.152-16.491zM36.55 104.805l48.5 0c.045 0 .09 0 .134.002 1.347-10.72 10.504-19.023 21.586-19.023 7.327 0 13.813 3.63 17.757 9.188l0-26.506c0-2.209-1.791-4-4-4-4.007 0-10.258 0-15.101 0-4.61 0-9.123 1.328-12.998 3.824-12.138 7.82-39.766 25.619-53.002 34.145-1.06.684-2.023 1.481-2.876 2.37z"></path><path d="M106.77 89.784c9.8 0 17.757 7.956 17.757 17.756 0 9.8-7.957 17.756-17.757 17.756-9.8 0-17.756-7.956-17.756-17.756 0-9.8 7.956-17.756 17.756-17.756zm0 10.756c3.864 0 7 3.137 7 7 0 3.863-3.136 7-7 7-3.863 0-7-3.137-7-7 0-3.863 3.137-7 7-7zM119.527 5.908l-1 0c-1.104 0-2 .896-2 2 0 1.104.896 2 2 2l1 0 0 1c0 1.104.896 2 2 2 1.103 0 2-.896 2-2l0-1 1 0c1.103 0 2-.896 2-2 0-1.104-.897-2-2-2l-1 0 0-1c0-1.104-.897-2-2-2-1.104 0-2 .896-2 2l0 1zM57.527 37.27l-1 0c-1.104 0-2 .896-2 2 0 1.104.896 2 2 2l1 0 0 1c0 1.104.896 2 2 2 1.103 0 2-.896 2-2l0-1 1 0c1.103 0 2-.896 2-2 0-1.104-.897-2-2-2l-1 0 0-1c0-1.104-.897-2-2-2-1.104 0-2 .896-2 2l0 1z"></path><circle cx="111.324" cy="30.27" r="6"></circle><circle cx="98.821" cy="51.053" r="4"></circle><path d="M24.041,28.409l6.109,8.719l22.088,-15.475c1.809,-1.268 2.248,-3.762 0.98,-5.572c-0.496,-0.709 -1.022,-1.458 -1.518,-2.167c-1.268,-1.809 -3.762,-2.248 -5.572,-0.981l-22.087,15.476Z"></path><path d="M55.133,11.844l1.361,1.942c0.32,0.456 0.585,0.934 0.797,1.426c7.2,-4.289 14.387,-5.665 20.37,-4.031c6.665,1.82 11.667,7.442 13.409,16.614c1.48,7.789 -3.998,14.668 -11.48,20.56c-12.035,9.479 -29.525,16.218 -36.34,18.972c-6.999,2.828 -18.801,6.268 -27.77,12.137c-6.385,4.179 -11.336,9.588 -12.599,16.688c-1.214,6.822 0.103,11.575 2.695,14.876c2.429,3.095 6.048,4.951 10.083,5.938c4.05,0.991 8.519,1.104 12.432,0.875l0,-1.955c0,-0.691 0.036,-1.377 0.106,-2.056c-3.629,0.241 -7.809,0.175 -11.588,-0.749c-3.135,-0.767 -5.999,-2.119 -7.887,-4.523c-2.033,-2.589 -2.855,-6.354 -1.903,-11.705c1.072,-6.026 5.432,-10.496 10.852,-14.042c8.738,-5.719 20.258,-9.02 27.077,-11.776c7.003,-2.829 24.95,-9.798 37.317,-19.537c8.788,-6.921 14.673,-15.301 12.935,-24.449c-2.088,-10.99 -8.3,-17.546 -16.286,-19.727c-6.903,-1.885 -15.261,-0.456 -23.581,4.522Z"></path></svg>
                     <span>House Keeping</span>
                 </label>
                 <label className="border p-4 flex rounded-xl gap-2 items-center">
-                    <input type="checkbox" name='Entrance' onChange={handleClick}/>
+                    <input type="checkbox" checked = {selected.includes('Entrance')} name='Entrance' onChange={handleClick}/>
                     <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" enableBackground="new 0 0 64 64" viewBox="0 0 64 64" id="door"><path d="M9.41,24.42H2.79c-1.46,0-2.64-1.19-2.64-2.64c0-1.46,1.19-2.64,2.64-2.64h6.62c1.46,0,2.64,1.19,2.64,2.64
 			C12.05,23.23,10.87,24.42,9.41,24.42z M2.79,20.12c-0.91,0-1.66,0.74-1.66,1.66s0.74,1.66,1.66,1.66h6.62
 			c0.91,0,1.66-0.74,1.66-1.66s-0.74-1.66-1.66-1.66H2.79z"></path><path d="M9.34 64H2.79c-.27 0-.49-.22-.49-.49V23.93c0-.27.22-.49.49-.49s.49.22.49.49v39.09h5.57V23.93c0-.27.22-.49.49-.49s.49.22.49.49v39.58C9.84 63.78 9.62 64 9.34 64zM11.05 7.44h-9.9c-.55 0-1.01-.45-1.01-1.01V3.46c0-.55.45-1.01 1.01-1.01h9.9c.55 0 1.01.45 1.01 1.01v2.97C12.05 6.99 11.6 7.44 11.05 7.44zM1.15 3.44l-.02 3 9.92.02c.01 0 .02-.01.02-.02V3.46L1.15 3.44z"></path><path d="M6.25,16.16c-1.29,0-2.4-0.88-2.69-2.14L1.98,7.06C1.92,6.79,2.08,6.53,2.35,6.47C2.61,6.4,2.88,6.57,2.94,6.84l1.58,6.96
@@ -97,5 +96,8 @@ const Perks = ({selected,onChange}) => {
     </div>
   )
 }
-
+Perks.propTypes = {
+    selected: PropTypes.array.isRequired,
+    onChange: PropTypes.func.isRequired,
+  };
 export default Perks

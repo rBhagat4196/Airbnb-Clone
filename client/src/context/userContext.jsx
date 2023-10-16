@@ -13,7 +13,9 @@ export function UserContextProvider({ children }) {
       try{
         if(!user){
           const {data} = await axios.get('/profile');
-          setUser(data);
+          const {name,email,_id} = data;
+          const capitalizeName = name.charAt(0).toUpperCase() + name.slice(1);
+          setUser({name:capitalizeName,email,_id});
           setReady(true)
           if(!data){
             navigate('/login')
@@ -25,7 +27,7 @@ export function UserContextProvider({ children }) {
       }
     }
     fetchData();
-  },[]);
+  },[navigate, user]);
 
   return (
     <UserContext.Provider value={{

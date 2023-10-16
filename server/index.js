@@ -142,11 +142,12 @@ app.post('/places',async(req,res)=>{
   const {title,address,addedPhotos , description,
   perks,extraInfo,checkIn,checkOut,maxGuests} = req.body
   const {token} = req.cookies;
+  // console.log(token)
     if (token) {
         Jwt.verify(token, process.env.SECRET_TOKEN, {}, async (err, userData) => {
           if (err) throw err;
           const newPlace = new Places({
-            owner : userData._id,
+            owner : userData.id,
             title,
             address,
             photos : addedPhotos , 
@@ -163,6 +164,53 @@ app.post('/places',async(req,res)=>{
       } else {
         res.json(null);
     }
+});
+
+app.put('/places',async(req,res)=>{
+  const {title,address,addedPhotos , description,
+    perks,extraInfo,checkIn,checkOut,maxGuests,id} = req.body
+    const {token} = req.cookies;
+    // console.log(token)
+    if (token) {
+      Jwt.verify(token, process.env.SECRET_TOKEN, {}, async (err, userData) => {
+            const placesDoc = await Places.findById(id);
+            if(placesDoc.owner == userData.id ){
+            placesDoc.set({
+            title,
+            address,
+            photos : addedPhotos , 
+            description,
+            perks,
+            extraInfo,
+            checkIn,
+            checkOut,
+            maxGuests,
+              });
+              await placesDoc.save();
+              res.json("successfully updated places doc")
+            }
+          });
+        } else {
+          res.json(null);
+      }
+})
+
+app.get('/places-details',(req,res)=>{
+  const {token} = req.cookies;
+  if (token) {
+      Jwt.verify(token, process.env.SECRET_TOKEN, {}, async (err, userData) => {
+        if (err) throw err;
+        res.json(await Places.find({owner : userData.id}))
+      });
+    } else {
+      res.json(null);
+  }
+})
+
+app.get('/places-details/:id',async(req,res)=>{
+  const {id} = req.params;
+  res.json(await Places.findById(id));
+  
 })
 app.listen(4000, () => {
   console.log('Server is running on port 4000');

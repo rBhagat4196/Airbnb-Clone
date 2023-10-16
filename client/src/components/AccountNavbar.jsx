@@ -7,7 +7,8 @@ const AccountNavbar = () => {
 
     const checkActive = (tab)=>{
         let subpage = pathname.split('/')?.[2];
-        if(subpage == undefined){
+        // console.log(subpage)
+        if(subpage == undefined || subpage==''){
             subpage = 'profile'
         }
         if(tab == subpage){
