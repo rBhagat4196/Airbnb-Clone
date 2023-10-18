@@ -140,7 +140,7 @@ app.post('/upload',multerMiddlewares.array('photos',20),(req,res)=>{
 
 app.post('/places',async(req,res)=>{
   const {title,address,addedPhotos , description,
-  perks,extraInfo,checkIn,checkOut,maxGuests} = req.body
+  perks,extraInfo,checkIn,checkOut,maxGuests,mainImage,price} = req.body
   const {token} = req.cookies;
   // console.log(token)
     if (token) {
@@ -157,6 +157,8 @@ app.post('/places',async(req,res)=>{
             checkIn,
             checkOut,
             maxGuests,
+            mainImage,
+            price,
           });
           res.json(newPlace);
           newPlace.save();
@@ -168,7 +170,7 @@ app.post('/places',async(req,res)=>{
 
 app.put('/places',async(req,res)=>{
   const {title,address,addedPhotos , description,
-    perks,extraInfo,checkIn,checkOut,maxGuests,id} = req.body
+    perks,extraInfo,checkIn,checkOut,maxGuests,mainImage,price,id} = req.body
     const {token} = req.cookies;
     // console.log(token)
     if (token) {
@@ -185,6 +187,8 @@ app.put('/places',async(req,res)=>{
             checkIn,
             checkOut,
             maxGuests,
+            mainImage,
+            price,
               });
               await placesDoc.save();
               res.json("successfully updated places doc")
@@ -211,7 +215,20 @@ app.get('/places-details/:id',async(req,res)=>{
   const {id} = req.params;
   res.json(await Places.findById(id));
   
+});
+ 
+app.delete('/delete-place/:id',async(req,res)=>{
+  const {id} = req.params;
+  await Places.findByIdAndDelete(id);
+  res.json("successfully delted");
+});
+
+
+app.get('/places-all',async(req,res)=>{
+  res.json(await Places.find());
 })
+
+
 app.listen(4000, () => {
   console.log('Server is running on port 4000');
 });

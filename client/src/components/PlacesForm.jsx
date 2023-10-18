@@ -3,6 +3,7 @@ import {BsUpload} from "react-icons/bs"
 import Perks from "./Perks"
 import { useEffect, useState } from "react"
 import axios from "axios";
+import {AiOutlineStar} from "react-icons/ai"
 const PlacesForm = () => {
     const {id} = useParams();
     const [title,setTitle] = useState('');
@@ -14,7 +15,8 @@ const PlacesForm = () => {
     const [checkIn,setCheckIn] = useState('');
     const [checkOut,setCheckOut] = useState('');
     const [maxGuests,setMaxGuests] = useState(1);
-  //   const [price,setPrice] = useState(100);
+    const [mainImage,setMainImage] = useState('');
+    const [price,setPrice] = useState(200);
     const [redirect,setRedirect] = useState(false);
     const [photoLink,setPhotoLink] = useState('');
     const addPhotoByLink=async(e)=>{
@@ -45,6 +47,7 @@ const PlacesForm = () => {
   
     const savePlace = async(e)=>{
       e.preventDefault();
+      
       if(id){
         axios.put('/places',{
             title,
@@ -56,12 +59,15 @@ const PlacesForm = () => {
             checkIn,
             checkOut,
             maxGuests,
+            mainImage,
+            price,
             id,    //   id for updata 
         })
         setRedirect(true)
       }
       else{
-
+        // let mainImage = ''
+        
           await axios.post('/places',{
               title,
               address,
@@ -71,7 +77,9 @@ const PlacesForm = () => {
               extraInfo,
               checkIn,
               checkOut,
-              maxGuests
+              maxGuests,
+              mainImage,
+              price,
             })
             setRedirect(true)
         }
@@ -89,11 +97,15 @@ const PlacesForm = () => {
             setCheckIn(data.checkIn);
             setCheckOut(data.checkOut);
             setMaxGuests(data.maxGuests);
+            setMainImage(data.mainImage);
+            setPrice(data.price);
         });
     },[id])
     if(redirect){
       return <Navigate to={'/account/accommodation'}/>
     }
+
+    if(mainImage == '' && addedPhotos.length > 0) setMainImage(addedPhotos[0])
     // console.log(addedPhotos)
   return (
     <div>
@@ -124,8 +136,11 @@ const PlacesForm = () => {
             </div>
             <div className="mt-2 gap-2 grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8">
                 {addedPhotos && addedPhotos.length > 0 &&  (
-                    addedPhotos.map(url=>(
-                        <div key={url} className="h-32 flex gap-2">
+                    addedPhotos.map((url)=>(
+                        <div key={url} className="relative h-32 flex gap-2">
+                            <div className="absolute  border-4  w-full h-full ">
+                            <AiOutlineStar className={`mx-auto my-[80px] h-6 w-6 bg-gray-200 rounded-full  cursor-pointer  ${mainImage == url ? 'opacity-100':'opacity-25'}`}  onClick={()=>setMainImage(url)}/>
+                            </div>
                             <img src={'http://localhost:4000/uploads/'+url} className="rounded-2xl w-full object-cover"></img>
                         </div>
                     ))
@@ -165,7 +180,7 @@ const PlacesForm = () => {
             <p className="text-gray-400">
                 add check in and check out time
             </p>
-            <div className="grid grid-cols-3 gap-1">
+            <div className="grid grid-cols-2 gap-1 lg:grid-cols-4">
                 <div>
                     <h3>Check In</h3>
                     <input name="checkin" type="text" placeholder="10:00" value={checkIn} onChange={e => setCheckIn(e.target.value)}/>
@@ -177,6 +192,10 @@ const PlacesForm = () => {
                 <div>
                     <h3>Max number of guests</h3>
                     <input name="maxguests" type="text" placeholder="4" value={maxGuests} onChange={e => setMaxGuests(e.target.value)}/>
+                </div>
+                <div>
+                    <h3>Max number of guests</h3>
+                    <input name="price" type="text" placeholder="4" value={price} onChange={e => setPrice(e.target.value)}/>
                 </div>
             </div>
             
