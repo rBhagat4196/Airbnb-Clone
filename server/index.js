@@ -139,8 +139,8 @@ app.post('/upload',multerMiddlewares.array('photos',20),(req,res)=>{
 
 
 app.post('/places',async(req,res)=>{
-  const {title,address,addedPhotos , description,
-  perks,extraInfo,checkIn,checkOut,maxGuests,mainImage,price} = req.body
+  const {title,address,addedPhotos , sanitzedText,
+  perks,sanitzedExtra,checkIn,checkOut,maxGuests,mainImage,price} = req.body
   const {token} = req.cookies;
   // console.log(token)
     if (token) {
@@ -151,9 +151,9 @@ app.post('/places',async(req,res)=>{
             title,
             address,
             photos : addedPhotos , 
-            description,
+            description:sanitzedText,
             perks,
-            extraInfo,
+            extraInfo:sanitzedExtra,
             checkIn,
             checkOut,
             maxGuests,
@@ -169,8 +169,8 @@ app.post('/places',async(req,res)=>{
 });
 
 app.put('/places',async(req,res)=>{
-  const {title,address,addedPhotos , description,
-    perks,extraInfo,checkIn,checkOut,maxGuests,mainImage,price,id} = req.body
+  const {title,address,addedPhotos , sanitzedText,
+    perks,sanitzedExtra,checkIn,checkOut,maxGuests,mainImage,price,id} = req.body
     const {token} = req.cookies;
     // console.log(token)
     if (token) {
@@ -181,9 +181,9 @@ app.put('/places',async(req,res)=>{
             title,
             address,
             photos : addedPhotos , 
-            description,
+            description:sanitzedText,
             perks,
-            extraInfo,
+            extraInfo:sanitzedExtra,
             checkIn,
             checkOut,
             maxGuests,

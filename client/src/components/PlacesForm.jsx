@@ -52,16 +52,16 @@ const PlacesForm = () => {
         let sanitzedExtra='';
         let sanitzedText='';
         if(description)
-            description.split('\n').map(para => para.trim()).join('\n');
+            sanitzedText=description.split('\n').map(para => para.trim()).join('\n');
         if(extraInfo)
             sanitzedExtra = extraInfo.split('\n').map(para => para.trim()).join('\n')
         axios.put('/places',{
             title,
             address,
             addedPhotos,
-            description : sanitzedText,
+            sanitzedText,
             perks,
-            extraInfo : sanitzedExtra,
+            sanitzedExtra,
             checkIn,
             checkOut,
             maxGuests,
@@ -76,16 +76,16 @@ const PlacesForm = () => {
         let sanitzedExtra='';
         let sanitzedText='';
         if(description)
-            description.split('\n').map(para => para.trim()).join('\n');
+            sanitzedText=description.split('\n').map(para => para.trim()).join('\n');
         if(extraInfo)
             sanitzedExtra = extraInfo.split('\n').map(para => para.trim()).join('\n')
           await axios.post('/places',{
               title,
               address,
               addedPhotos,
-              description : sanitzedText,
+              sanitzedText,
               perks,
-              extraInfo : sanitzedExtra,
+              sanitzedExtra,
               checkIn,
               checkOut,
               maxGuests,

@@ -6,7 +6,6 @@ import {GrShieldSecurity} from "react-icons/gr"
 const PlacePerks = ({placeDetails}) => {
     const {perks} = placeDetails;
     if(!perks) return 'Loading..'
-    console.log(placeDetails)
   return (
     <div className="flex flex-col gap-1">
                 <div className={`border p-4 rounded-xl gap-2 items-center ${perks.map(item => item == 'Furnished').includes(true)?'flex':'hidden'}`}>

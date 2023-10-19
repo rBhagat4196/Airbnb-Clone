@@ -27,7 +27,7 @@ const Place = () => {
             {placeDetails.description && placeDetails.description.split('\n').map((para, index) => (
     <p key={index} className="font-semibold text-gray-800">{para}</p>
   ))}
-        <div className="font-bold">
+        <div className="font-bold mt-4">
           Check-in: {placeDetails.checkIn}<br />
           Check-out: {placeDetails.checkOut}<br />
           Max number of guests: {placeDetails.maxGuests}
@@ -43,7 +43,7 @@ const Place = () => {
           </div>
           <div className="bg-gray-200 -mx-8 px-8 py-8 border-t w-1/2 rounded-2xl p-2">
             <div>
-              <h2 className="font-semibold text-2xl">Extra info</h2>
+              <h2 className="font-semibold text-2xl text-gray-800">Extra info</h2>
             </div>
             <div className="mb-4 mt-2 text-sm text-gray-700 leading-5">
               {placeDetails.extraInfo && placeDetails.extraInfo.split('\n').map((para, index) => (
