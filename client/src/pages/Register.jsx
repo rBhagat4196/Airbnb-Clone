@@ -1,27 +1,30 @@
 import axios from "axios";
 import { useState } from "react";
-import { Link } from "react-router-dom"
+import { Link, Navigate } from "react-router-dom"
 const Register = () => {
     const [name,setName] = useState('');
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
+    const [redirect,setRedirect] = useState(false)
     const registerUser = async (e) => {
         e.preventDefault();
     
         try {
-          const response = await axios.post('/register', {
+          await axios.post('/register', {
             name,
             email,
             password,
           });
-    
+          setRedirect(true);
           // Handle the response, e.g., show a success message or redirect to another page.
-          console.log('Registration successful', response.data);
         } catch (error) {
           // Handle errors, e.g., show an error message to the user.
           console.error('Registration failed', error);
         }
       };
+      if(redirect){
+        return <Navigate to={'/login'}/>
+      }
    return (
     <div className="mt-4 grow flex items-center justify-around">
         <div>

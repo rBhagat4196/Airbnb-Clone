@@ -49,13 +49,19 @@ const PlacesForm = () => {
       e.preventDefault();
       
       if(id){
+        let sanitzedExtra='';
+        let sanitzedText='';
+        if(description)
+            description.split('\n').map(para => para.trim()).join('\n');
+        if(extraInfo)
+            sanitzedExtra = extraInfo.split('\n').map(para => para.trim()).join('\n')
         axios.put('/places',{
             title,
             address,
             addedPhotos,
-            description,
+            description : sanitzedText,
             perks,
-            extraInfo,
+            extraInfo : sanitzedExtra,
             checkIn,
             checkOut,
             maxGuests,
@@ -67,14 +73,19 @@ const PlacesForm = () => {
       }
       else{
         // let mainImage = ''
-        
+        let sanitzedExtra='';
+        let sanitzedText='';
+        if(description)
+            description.split('\n').map(para => para.trim()).join('\n');
+        if(extraInfo)
+            sanitzedExtra = extraInfo.split('\n').map(para => para.trim()).join('\n')
           await axios.post('/places',{
               title,
               address,
               addedPhotos,
-              description,
+              description : sanitzedText,
               perks,
-              extraInfo,
+              extraInfo : sanitzedExtra,
               checkIn,
               checkOut,
               maxGuests,

@@ -7,7 +7,7 @@ const Header = () => {
   const {user} = useUserContext();
   return (
     <header className="flex justify-between">
-          <a href="/" className="">
+          <a href="/" className="flex items-center">
             <img src='/airbnb.svg' height={100} width={100} className="hidden lg:flex" />
             <img src="/airbnb-1.svg" height={30} width={30} className="lg:hidden w-8 h-8 my-2" />
           </a>
