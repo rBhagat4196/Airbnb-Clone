@@ -24,19 +24,20 @@ const Place = () => {
         {placeDetails.address}
         </a>
       <PlaceGallery placeDetails={placeDetails} />
-      <div className="flex gap-4">
-          <div className="w-1/2 ">
+      <div className="mt-8 mb-8 grid gap-8 grid-cols-1 md:grid-cols-[2fr_1fr]">
+          <div>
+            <div>  
             <h2 className="font-bold text-2xl mt-2">Description</h2>
             {placeDetails.description && placeDetails.description.split('\n').map((para, index) => (
     <p key={index} className="font-semibold text-gray-800">{para}</p>
   ))}
-        <div className="font-bold mt-4">
+            </div>
+        
           Check-in: {placeDetails.checkIn}<br />
           Check-out: {placeDetails.checkOut}<br />
           Max number of guests: {placeDetails.maxGuests}
-        </div>
           </div>
-        <div className="flex mt-10 justify-center p-4">  
+        <div>  
           <BookingWidget placeDetails={placeDetails} />
         </div>
       </div>

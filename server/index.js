@@ -14,6 +14,7 @@ import fs from 'fs'
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 import Places from './models/placeModel.js';
+import Bookings from './models/bookingModel.js';
 // initializers
 dotenv.config();
 const app = express();
@@ -229,6 +230,22 @@ app.get('/places-all',async(req,res)=>{
 })
 
 
+app.post('/booking',async (req,res)=>{
+  const {placeId,checkIn,checkOut,numberOfGuests,name,phoneNo,price} = req.body;
+  const newBooking  = new Bookings({
+    placeId,
+    checkIn,
+    checkOut,
+    numberOfGuests,
+    name,
+    phoneNo,
+    price
+  });
+  await newBooking.save();
+  res.json(newBooking)
+});
+
+// app.get()
 app.listen(4000, () => {
   console.log('Server is running on port 4000');
 });

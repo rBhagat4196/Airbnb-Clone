@@ -1,5 +1,37 @@
+import { useState } from "react"
+
 /* eslint-disable react/prop-types */
+import { differenceInCalendarDays } from "date-fns/fp";
+import axios from "axios";
+import { Navigate } from "react-router-dom";
+import { useUserContext } from "../context/userContext";
 const BookingWidget = ({placeDetails}) => {
+  const [checkIn,setCheckIn] = useState('');
+  const [checkOut,setCheckOut] = useState('');
+  const [numberOfGuests,SetNumberOfGuests] = useState(1);
+  const [name,setName] = useState('');
+  const [phoneNo,setPhoneNo] = useState();
+  const [redirect,setRedirect] = useState(false);
+  const {user} = useUserContext();
+  let bookingPrice = 0;
+  let numberOfNights = 0;
+  if(checkIn && checkOut){
+    numberOfNights = differenceInCalendarDays(new Date(checkIn),new Date(checkOut));
+  }
+  if(numberOfNights > 0){
+    bookingPrice=numberOfNights*placeDetails.price;
+  }
+  const bookThisPlace =async()=>{
+    if(!user){
+      return <Navigate to={'/login'}/>
+    }
+    const data = {placeId:placeDetails._id,checkIn,checkOut,numberOfGuests,name,phoneNo,price:bookingPrice};
+    axios.post('/booking',data);
+    setRedirect(true);
+  }
+  if(redirect){
+    return <Navigate to={'/account/bookings'}/>
+  }
   return (
     <div className="">
       <div className="bg-white shadow p-4 rounded-2xl ">
@@ -12,18 +44,29 @@ const BookingWidget = ({placeDetails}) => {
         <div className="flex">
         <div className="my-2 border-2 py-2 px-2 rounded-xl">
           <label>Check in:</label>
-          <input type="date"/>
+          <input type="date" value={checkIn} onChange={(e)=>setCheckIn(e.target.value)}/>
         </div>
         <div className="my-2 border-2 py-2 px-2 rounded-xl">
           <label>Check out:</label>
-          <input type="date"/>
+          <input type="date" value={checkOut} onChange={(e)=>setCheckOut(e.target.value)}/>
         </div>
         </div>
         <div className="py-2 px-2">
           <label>Number of guests</label>
-          <input type="number" value={2} />
+          <input type="number" value={numberOfGuests}  onChange={(e)=>SetNumberOfGuests(e.target.value)}/>
         </div>
-        <button className="border-2 bg-red-500 rounded-full p-2 w-full ">Book This Place</button>
+        {numberOfNights > 0 && (
+          <div>
+            <label >Your Full Name:</label>
+            <input type="text" value={name}  onChange={(e)=>setName(e.target.value)}/>
+            <label>Mobile Number:</label>
+            <input type="text" value={phoneNo}  onChange={(e)=>setPhoneNo(e.target.value)}/>
+          </div>
+        )}
+        <button className="border-2 bg-red-500 rounded-full p-2 w-full " disabled={!checkIn && !checkOut && !name && !phoneNo} onClick={bookThisPlace}>Book This Place</button>
+        {numberOfNights > 0 && (
+          <span>${bookingPrice}</span>
+        )}
       </div>
     </div>
   )
