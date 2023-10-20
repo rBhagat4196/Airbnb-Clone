@@ -30,7 +30,7 @@ export default function PlaceGallery({placeDetails}) {
   }
 
   return (
-    <div className="relative mx-10">
+    <div className="relative">
       <div className=" grid gap-2 grid-cols-[2fr_1fr] rounded-3xl overflow-hidden">
         <div className="">
           {placeDetails.photos?.[0] && (

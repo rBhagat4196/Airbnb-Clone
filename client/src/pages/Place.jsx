@@ -1,10 +1,10 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom"
-import AddressLink from "../components/AddressLink";
 import PlaceGallery from "../components/PlaceGallery";
 import BookingWidget from "../components/BookingWidget";
 import PlacePerks from "../components/PlacePerks";
+import {GrLocation} from "react-icons/gr"
 const Place = () => {
     const {id} = useParams();
     const [placeDetails,setPlaceDetails] = useState([]);
@@ -18,11 +18,14 @@ const Place = () => {
     <div className="flex justify-center ">
 
     <div className=" rounded-2xl flex justify-center flex-col lg:w-4/6 mt-4 bg-gray-100 p-2 border-red-400">
-      <h1 className="font-bold text-3xl mb-4">{placeDetails.title}</h1>
-      <AddressLink>{placeDetails.address}</AddressLink>
+      <h1 className="font-bold text-3xl">{placeDetails.title}</h1>
+      <a className="mb-4 font-semibold flex gap-1 "href={'https://maps.google.com/?='+placeDetails.address}>
+      <GrLocation className="w-6 h-6 p-1"/>
+        {placeDetails.address}
+        </a>
       <PlaceGallery placeDetails={placeDetails} />
-      <div className="flex">
-          <div className="w-1/2">
+      <div className="flex gap-4">
+          <div className="w-1/2 ">
             <h2 className="font-bold text-2xl mt-2">Description</h2>
             {placeDetails.description && placeDetails.description.split('\n').map((para, index) => (
     <p key={index} className="font-semibold text-gray-800">{para}</p>
@@ -33,7 +36,7 @@ const Place = () => {
           Max number of guests: {placeDetails.maxGuests}
         </div>
           </div>
-        <div className="">  
+        <div className="flex mt-10 justify-center p-4">  
           <BookingWidget placeDetails={placeDetails} />
         </div>
       </div>

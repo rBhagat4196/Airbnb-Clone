@@ -34,15 +34,23 @@ const Account = () => {
     <div>
       <AccountNavbar/>
       {subpage == 'profile' && (
-        <div className="text-center max-w-lg mx-auto">
-          Logged in as {user.name} ({user.email}) 
-          <br/>
+        <div className="mt-4 text-center max-w-lg mx-auto">
+          <div className="bg-white rounded-lg p-8  w-80 mx-auto">
+          <div className="mx-auto w-24 h-24 bg-gray-300 rounded-full overflow-hidden">
+            <img src="/avatar-1577909_1280.webp" alt="User Avatar" className="w-full h-full object-cover" />
+          </div>
+          </div>
+          <div>
+            Logged in as {user.name} ({user.email}) 
+          </div>
+          <div>
             <button className="mt-2 w-full p-2 rounded-2xl bg-red-400 text-white border border-blue-400 text-center" onClick={logOut}>
               Logout
-              </button>
+             </button>
           </div>
-      )}
     </div>
+      )}
+      </div>
   )
 }
 
