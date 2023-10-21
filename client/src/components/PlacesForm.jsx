@@ -20,8 +20,8 @@ const PlacesForm = () => {
     const [price,setPrice] = useState(200);
     const [redirect,setRedirect] = useState(false);
     const [photoLink,setPhotoLink] = useState('');
-    const {user} = useUserContext();
-    const [redirectToLogin,setRedirectToLogin] = useState(true);
+    const {user,loaded} = useUserContext();
+    const [redirectToLogin,setRedirectToLogin] = useState(false);
     const addPhotoByLink=async(e)=>{
       e.preventDefault();
       const {data:filename}=await axios.post('/upload-by-link',{link : photoLink})
@@ -99,25 +99,28 @@ const PlacesForm = () => {
         }
     }
     useEffect(()=>{
-        if(!user){
+        if(!user && loaded){
             setRedirectToLogin(true)
         }
         if(!id) return;
-        axios.get('/places-details/'+id).then(response =>{
-            const {data} = response;
-            setTitle(data.title);
-            setAddress(data.address);
-            setDescription(data.description);
-            setAddedPhotos(data.photos);
-            setPerks(data.perks);
-            setExtraInfo(data.extraInfo);
-            setCheckIn(data.checkIn);
-            setCheckOut(data.checkOut);
-            setMaxGuests(data.maxGuests);
-            setMainImage(data.mainImage);
-            setPrice(data.price);
-        });
-    },[id, user])
+        else{
+
+            axios.get('/places-details/'+id).then(response =>{
+                const {data} = response;
+                setTitle(data.title);
+                setAddress(data.address);
+                setDescription(data.description);
+                setAddedPhotos(data.photos);
+                setPerks(data.perks);
+                setExtraInfo(data.extraInfo);
+                setCheckIn(data.checkIn);
+                setCheckOut(data.checkOut);
+                setMaxGuests(data.maxGuests);
+                setMainImage(data.mainImage);
+                setPrice(data.price);
+            });
+        }
+    },[id, loaded, user])
     if(redirect){
       return <Navigate to={'/account/accommodation'}/>
     }
@@ -213,7 +216,7 @@ const PlacesForm = () => {
                     <input name="maxguests" type="text" placeholder="4" value={maxGuests} onChange={e => setMaxGuests(e.target.value)}/>
                 </div>
                 <div>
-                    <h3>Max number of guests</h3>
+                    <h3>Price/Night</h3>
                     <input name="price" type="text" placeholder="4" value={price} onChange={e => setPrice(e.target.value)}/>
                 </div>
             </div>

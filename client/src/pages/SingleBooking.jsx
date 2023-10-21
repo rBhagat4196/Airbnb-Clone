@@ -3,12 +3,15 @@ import { useUserContext } from "../context/userContext"
 import { Navigate } from "react-router-dom";
 
 const SingleBooking = () => {
-  const {user} = useUserContext();
-  const [redirectToLogin,setRedirectToLogin] = useState(true);
+  const {user,loaded} = useUserContext();
+  const [redirectToLogin,setRedirectToLogin] = useState(false);
   useEffect(()=>{
-    if(!user) setRedirectToLogin(true)
+    if(!user && loaded) setRedirectToLogin(true)
+    else{
+     console.log("Single Page Booking View")
+  }
 
-  },[])
+  },[loaded, user])
   if(redirectToLogin){
     return <Navigate to={'/login'}/>
   }

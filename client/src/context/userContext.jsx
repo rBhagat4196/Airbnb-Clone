@@ -7,7 +7,7 @@ const UserContext = createContext();
 
 export function UserContextProvider({ children }) {
   const [user, setUser] = useState();
-  const [ready,setReady] = useState(false)
+  const [loaded,setLoaded] = useState(false)
   const navigate = useNavigate();
   useEffect(()=>{
     const fetchData = async()=>{
@@ -18,6 +18,7 @@ export function UserContextProvider({ children }) {
             const {name,email,_id} = data;
             setUser({name,email,_id});
           }
+          setLoaded(true);
           
         }
       }
@@ -32,8 +33,8 @@ export function UserContextProvider({ children }) {
     <UserContext.Provider value={{
       user,
       setUser,
-      ready,
-      setReady
+      loaded,
+      setLoaded
     }}>
       {children}
     </UserContext.Provider>

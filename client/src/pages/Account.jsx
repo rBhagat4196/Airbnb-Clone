@@ -5,19 +5,16 @@ import { useEffect, useState } from "react";
 import AccountNavbar from "../components/AccountNavbar";
 
 const Account = () => {
-  const {user} = useUserContext();
-  const [ready,setReady] = useState(false);
+  const {user,loaded} = useUserContext();
   const [redirect,SetRedirect] = useState(false);
   const {setUser} = useUserContext();
   let {subpage} = useParams();
   useEffect(()=>{
-    if(user){
-      setReady(true)
-    }
-    else{
+    if(!user && loaded){
       SetRedirect(true)
     }
-  },[user])
+  },[loaded, user]);
+  
   if(subpage == undefined){
     subpage = 'profile'
   }
@@ -38,7 +35,7 @@ const Account = () => {
   return (
     <div>
       <AccountNavbar/>
-      {ready && subpage == 'profile' && (
+      {loaded && user && subpage == 'profile' && (
         <div className="mt-4 text-center max-w-lg mx-auto">
           <div className="bg-white rounded-lg p-8  w-80 mx-auto">
           <div className="mx-auto w-24 h-24 bg-gray-300 rounded-full overflow-hidden">

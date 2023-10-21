@@ -5,19 +5,24 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import {AiFillDelete} from "react-icons/ai"
 import { useUserContext } from "../context/userContext";
+import {BsBuildingsFill} from "react-icons/bs"
 const PlacesPage = () => {
-  const {user} = useUserContext();
-  const [redirectToLogin,setRedirectToLogin] = useState(true);
+  const {user,loaded} = useUserContext();
+  const [redirectToLogin,setRedirectToLogin] = useState(false);
     const [placesDetails , setPlacesDetails] = useState([]);
     
     useEffect(()=>{
-      if(!user){
+      console.log(user)
+      if(!user && loaded){
         setRedirectToLogin(true);
       }
+      else{
         axios.get('/places-details').then(({data})=>{
           setPlacesDetails(data);
         })
-    },[user]);
+      }
+    },[loaded, user]);
+
     const deltePlaces = async(id)=>{
       await axios.delete('/delete-place/'+id);
       axios.get('/places-details').then(({data})=>{
@@ -62,6 +67,16 @@ const PlacesPage = () => {
       }
       </div>
     </div>
+      {
+       placesDetails==null || placesDetails.length == 0 &&(
+          <div className="flex flex-col gap-4 items-center justify-center h-[400px]">
+              <BsBuildingsFill className="h-40 w-40 text-[#f37e6f]"/>
+              <h1 className="text-3xl font-bold text-gray-600 p-2">
+                No Booking Yet 
+              </h1>
+            </div>
+        )
+      }
     </div>
   )
 }

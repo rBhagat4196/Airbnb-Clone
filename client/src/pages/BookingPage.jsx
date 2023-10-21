@@ -8,11 +8,12 @@ import {AiFillDelete} from "react-icons/ai"
 import { differenceInCalendarDays, format} from "date-fns";
 import { useUserContext } from "../context/userContext";
 const BookingPage = () => {
-  const {user} = useUserContext();
+  const {user,loaded} = useUserContext();
   const [bookings,setBookings] = useState([]);
   const [redirect,setRedirect] = useState(false)
   useEffect(()=>{
-    if(!user){
+    console.log(user)
+    if(!user && loaded){
       setRedirect(true);
     }
     else{
@@ -20,15 +21,17 @@ const BookingPage = () => {
         setBookings(response.data);
       })
     }
-  },[user]);
-  if(redirect) return <Navigate to={'login'}/>
+  },[loaded, user]);
+  
   const deleteBooking = async(id)=>{
     await axios.delete('/delete-booking/'+id);
     axios.get('/bookings-detail').then(({data})=>{
         setBookings(data);
       })
   }
-  
+  if(redirect){
+    return <Navigate to={'/login'}/>
+  } 
   return (
     <div>
       <AccountNavbar />
@@ -78,6 +81,16 @@ const BookingPage = () => {
         </div>
         </div>
         ))}
+        {
+          bookings.length == 0 && (
+            <div className="flex flex-col gap-4 items-center justify-center h-[400px]">
+              <img src="/cassette_3793546.png" className="h-40 w-40"/>
+              <h1 className="text-3xl font-bold text-gray-600 p-2">
+                No Booking Yet 
+              </h1>
+            </div>
+          )
+        }
       </div>
     </div>
   );

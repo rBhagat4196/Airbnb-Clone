@@ -247,7 +247,7 @@ app.post('/booking',async (req,res)=>{
     user:owner,
   });
   await newBooking.save();
-  console.log(newBooking);
+  // console.log(newBooking);
   res.json(newBooking)
 });
 
