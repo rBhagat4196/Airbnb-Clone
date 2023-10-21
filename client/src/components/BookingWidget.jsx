@@ -31,7 +31,8 @@ const BookingWidget = ({placeDetails}) => {
     if(!user){
       return <Navigate to={'/login'}/>
     }
-    const data = {placeId:placeDetails._id,checkIn,checkOut,numberOfGuests,name,phoneNo,price:bookingPrice,owner:placeDetails.owner};
+    console.log(user)
+    const data = {placeId:placeDetails._id,checkIn,checkOut,numberOfGuests,name,phoneNo,price:bookingPrice,owner:user._id};
      axios.post('/booking',data);
     setRedirect(true);
   }

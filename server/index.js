@@ -263,6 +263,13 @@ app.get('/bookings-detail',async(req,res)=>{
   res.json(await Bookings.find({user : userData.id}).populate('placeId'))
   // res.json(Bookings.find({user:userData.id}));
 })
+
+app.delete('/delete-booking/:id',async(req,res)=>{
+  const {id} = req.params;
+  await Bookings.findByIdAndDelete(id);
+  res.json("successfully delted");
+});
+
 app.listen(4000, () => {
   console.log('Server is running on port 4000');
 });
