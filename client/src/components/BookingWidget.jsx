@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 /* eslint-disable react/prop-types */
 import { differenceInCalendarDays } from "date-fns/fp";
@@ -15,18 +15,24 @@ const BookingWidget = ({placeDetails}) => {
   const {user} = useUserContext();
   let bookingPrice = 0;
   let numberOfNights = 0;
+  useEffect(()=>{
+
+    if(user){
+      setName(user.name)
+    }
+  },[user])
   if(checkIn && checkOut){
     numberOfNights = differenceInCalendarDays(new Date(checkIn),new Date(checkOut));
   }
   if(numberOfNights > 0){
-    bookingPrice=numberOfNights*placeDetails.price;
+    bookingPrice=numberOfNights*placeDetails.price*numberOfGuests;
   }
   const bookThisPlace =async()=>{
     if(!user){
       return <Navigate to={'/login'}/>
     }
-    const data = {placeId:placeDetails._id,checkIn,checkOut,numberOfGuests,name,phoneNo,price:bookingPrice};
-    axios.post('/booking',data);
+    const data = {placeId:placeDetails._id,checkIn,checkOut,numberOfGuests,name,phoneNo,price:bookingPrice,owner:placeDetails.owner};
+     axios.post('/booking',data);
     setRedirect(true);
   }
   if(redirect){

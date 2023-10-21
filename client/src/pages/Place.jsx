@@ -19,7 +19,7 @@ const Place = () => {
 
     <div className=" rounded-2xl flex justify-center flex-col lg:w-4/6 mt-4 bg-gray-100 p-2 border-red-400">
       <h1 className="font-bold text-3xl">{placeDetails.title}</h1>
-      <a className="mb-4 font-semibold flex gap-1 "href={'https://maps.google.com/?='+placeDetails.address}>
+      <a className="mb-4 font-semibold flex gap-1 " href={'https://www.google.com/maps/search/?q='+placeDetails.address} target="_blank" rel="noreferrer">
       <GrLocation className="w-6 h-6 p-1"/>
         {placeDetails.address}
         </a>

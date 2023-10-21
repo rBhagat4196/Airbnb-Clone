@@ -8,13 +8,16 @@ import cookieParser from 'cookie-parser';
 import Jwt  from 'jsonwebtoken';
 import imageDownloader from 'image-downloader';
 import { fileURLToPath } from 'url';
-import { dirname } from 'path';
+import { dirname, resolve } from 'path';
 import multer from 'multer';
 import fs from 'fs'
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 import Places from './models/placeModel.js';
 import Bookings from './models/bookingModel.js';
+import { rejects } from 'assert';
+
+
 // initializers
 dotenv.config();
 const app = express();
@@ -29,10 +32,12 @@ const salt = await bcrypt.genSalt();
 
 
 // middlewares
-app.use(express.json())
+app.use(express.json());
 app.use(cors(corsOptions));
-app.use(cookieParser())
-app.use('/uploads',express.static(__dirname+'/uploads/'))
+app.use(cookieParser());
+app.use('/uploads',express.static(__dirname+'/uploads/'));
+
+
 // Database connection
 connectDb(process.env.MONGO_URL);
 
@@ -40,9 +45,7 @@ connectDb(process.env.MONGO_URL);
 // endpoints or request
 app.post('/register',async(req,res)=>{
     try{
-
         const {name,email,password} = req.body;
-        
         const hashedPassword = await bcrypt.hash(password,salt);
         const newUser = new User({name,email,password : hashedPassword});
         await newUser.save();
@@ -231,7 +234,7 @@ app.get('/places-all',async(req,res)=>{
 
 
 app.post('/booking',async (req,res)=>{
-  const {placeId,checkIn,checkOut,numberOfGuests,name,phoneNo,price} = req.body;
+  const {placeId,checkIn,checkOut,numberOfGuests,name,phoneNo,price,owner} = req.body;
   const newBooking  = new Bookings({
     placeId,
     checkIn,
@@ -239,13 +242,27 @@ app.post('/booking',async (req,res)=>{
     numberOfGuests,
     name,
     phoneNo,
-    price
+    price,
+    user:owner,
   });
   await newBooking.save();
+  console.log(newBooking);
   res.json(newBooking)
 });
 
-// app.get()
+function getUserDataFromToken(token){
+  return new Promise((resolve,reject)=>{
+    Jwt.verify(token, process.env.SECRET_TOKEN, {}, async (err, userData) => {
+      if (err) throw err;
+      resolve(userData)
+    });
+  })
+}
+app.get('/bookings-detail',async(req,res)=>{
+  const userData = await getUserDataFromToken(req.cookies.token);
+  res.json(await Bookings.find({user : userData.id}).populate('placeId'))
+  // res.json(Bookings.find({user:userData.id}));
+})
 app.listen(4000, () => {
   console.log('Server is running on port 4000');
 });

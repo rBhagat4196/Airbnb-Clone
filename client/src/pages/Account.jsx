@@ -33,7 +33,7 @@ const Account = () => {
   return (
     <div>
       <AccountNavbar/>
-      {subpage == 'profile' && (
+      {ready && subpage == 'profile' && (
         <div className="mt-4 text-center max-w-lg mx-auto">
           <div className="bg-white rounded-lg p-8  w-80 mx-auto">
           <div className="mx-auto w-24 h-24 bg-gray-300 rounded-full overflow-hidden">
