@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useEffect, useState } from "react";
 import PropTypes from 'prop-types';
 import axios from "axios";
@@ -13,13 +14,11 @@ export function UserContextProvider({ children }) {
       try{
         if(!user){
           const {data} = await axios.get('/profile');
-          const {name,email,_id} = data;
-          const capitalizeName = name.charAt(0).toUpperCase() + name.slice(1);
-          setUser({name:capitalizeName,email,_id});
-          setReady(true)
-          if(!data){
-            navigate('/login')
+          if(data != null){
+            const {name,email,_id} = data;
+            setUser({name,email,_id});
           }
+          
         }
       }
       catch(err){

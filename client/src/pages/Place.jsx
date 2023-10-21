@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom"
+import { Navigate, useParams } from "react-router-dom"
 import PlaceGallery from "../components/PlaceGallery";
 import BookingWidget from "../components/BookingWidget";
 import PlacePerks from "../components/PlacePerks";
@@ -9,9 +9,15 @@ const Place = () => {
     const {id} = useParams();
     const [placeDetails,setPlaceDetails] = useState([]);
     useEffect(()=>{
+      try{
         axios.get('/places-details/'+id).then(response=>{
             setPlaceDetails(response.data)
         })
+      }
+      catch(err){
+        console.log(err);
+        return <Navigate to={'/login'}/>
+      }
     },[id])
     if(!placeDetails) return 'Loading..'
   return (

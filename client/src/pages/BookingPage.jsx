@@ -2,23 +2,33 @@
 import { useEffect, useState } from "react"
 import AccountNavbar from "../components/AccountNavbar"
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import Image from "../components/Image";
 import {AiFillDelete} from "react-icons/ai"
 import { differenceInCalendarDays, format} from "date-fns";
+import { useUserContext } from "../context/userContext";
 const BookingPage = () => {
+  const {user} = useUserContext();
   const [bookings,setBookings] = useState([]);
+  const [redirect,setRedirect] = useState(false)
   useEffect(()=>{
-    axios.get('/bookings-detail').then(response=>{
-      setBookings(response.data);
-    })
-  },[]);
+    if(!user){
+      setRedirect(true);
+    }
+    else{
+      axios.get('/bookings-detail').then(response=>{
+        setBookings(response.data);
+      })
+    }
+  },[user]);
+  if(redirect) return <Navigate to={'login'}/>
   const deleteBooking = async(id)=>{
     await axios.delete('/delete-booking/'+id);
     axios.get('/bookings-detail').then(({data})=>{
         setBookings(data);
       })
   }
+  
   return (
     <div>
       <AccountNavbar />

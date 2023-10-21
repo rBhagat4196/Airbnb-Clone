@@ -10,13 +10,13 @@ const BookingWidget = ({placeDetails}) => {
   const [checkOut,setCheckOut] = useState('');
   const [numberOfGuests,SetNumberOfGuests] = useState(1);
   const [name,setName] = useState('');
-  const [phoneNo,setPhoneNo] = useState();
+  const [phoneNo,setPhoneNo] = useState("");
   const [redirect,setRedirect] = useState(false);
+  const [redirectToLogin,setRedirectToLogin]=useState(false)
   const {user} = useUserContext();
   let bookingPrice = 0;
   let numberOfNights = 0;
   useEffect(()=>{
-
     if(user){
       setName(user.name)
     }
@@ -27,17 +27,31 @@ const BookingWidget = ({placeDetails}) => {
   if(numberOfNights > 0){
     bookingPrice=numberOfNights*placeDetails.price*numberOfGuests;
   }
-  const bookThisPlace =async()=>{
-    if(!user){
-      return <Navigate to={'/login'}/>
+  const bookThisPlace = async () => {
+    if (!user) {
+      setRedirectToLogin(true);
+    } else {
+      const data = {
+        placeId: placeDetails._id,
+        checkIn,
+        checkOut,
+        numberOfGuests,
+        name,
+        phoneNo,
+        price: bookingPrice,
+        owner: user._id,
+      };
+      axios.post("/booking", data);
+      setRedirect(true);
     }
-    console.log(user)
-    const data = {placeId:placeDetails._id,checkIn,checkOut,numberOfGuests,name,phoneNo,price:bookingPrice,owner:user._id};
-     axios.post('/booking',data);
-    setRedirect(true);
+  };
+
+  if (redirectToLogin) {
+    return <Navigate to={'/login'} />;
   }
-  if(redirect){
-    return <Navigate to={'/account/bookings'}/>
+
+  if (redirect) {
+    return <Navigate to={'/account/bookings'} />;
   }
   return (
     <div className="">

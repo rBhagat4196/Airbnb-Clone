@@ -4,6 +4,7 @@ import Perks from "./Perks"
 import { useEffect, useState } from "react"
 import axios from "axios";
 import {AiOutlineStar} from "react-icons/ai"
+import { useUserContext } from "../context/userContext";
 const PlacesForm = () => {
     const {id} = useParams();
     const [title,setTitle] = useState('');
@@ -19,6 +20,8 @@ const PlacesForm = () => {
     const [price,setPrice] = useState(200);
     const [redirect,setRedirect] = useState(false);
     const [photoLink,setPhotoLink] = useState('');
+    const {user} = useUserContext();
+    const [redirectToLogin,setRedirectToLogin] = useState(true);
     const addPhotoByLink=async(e)=>{
       e.preventDefault();
       const {data:filename}=await axios.post('/upload-by-link',{link : photoLink})
@@ -96,6 +99,9 @@ const PlacesForm = () => {
         }
     }
     useEffect(()=>{
+        if(!user){
+            setRedirectToLogin(true)
+        }
         if(!id) return;
         axios.get('/places-details/'+id).then(response =>{
             const {data} = response;
@@ -111,11 +117,13 @@ const PlacesForm = () => {
             setMainImage(data.mainImage);
             setPrice(data.price);
         });
-    },[id])
+    },[id, user])
     if(redirect){
       return <Navigate to={'/account/accommodation'}/>
     }
-
+    if(redirectToLogin){
+        return <Navigate to={'/login'}/>
+    }
     if(mainImage == '' && addedPhotos.length > 0) setMainImage(addedPhotos[0])
     // console.log(addedPhotos)
   return (

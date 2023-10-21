@@ -47,7 +47,8 @@ app.post('/register',async(req,res)=>{
     try{
         const {name,email,password} = req.body;
         const hashedPassword = await bcrypt.hash(password,salt);
-        const newUser = new User({name,email,password : hashedPassword});
+        const capitalizeName = name.charAt(0).toUpperCase() + name.slice(1);
+        const newUser = new User({name:capitalizeName,email,password : hashedPassword});
         await newUser.save();
         res.json("Registration Successful")
     }

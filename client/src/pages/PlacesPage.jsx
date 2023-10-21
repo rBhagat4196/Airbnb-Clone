@@ -1,22 +1,31 @@
-import { Link} from "react-router-dom"
+import { Link, Navigate} from "react-router-dom"
 import {AiOutlinePlusCircle} from "react-icons/ai"
 import AccountNavbar from "../components/AccountNavbar";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import {AiFillDelete} from "react-icons/ai"
+import { useUserContext } from "../context/userContext";
 const PlacesPage = () => {
+  const {user} = useUserContext();
+  const [redirectToLogin,setRedirectToLogin] = useState(true);
     const [placesDetails , setPlacesDetails] = useState([]);
     
     useEffect(()=>{
+      if(!user){
+        setRedirectToLogin(true);
+      }
         axios.get('/places-details').then(({data})=>{
           setPlacesDetails(data);
         })
-    },[]);
+    },[user]);
     const deltePlaces = async(id)=>{
       await axios.delete('/delete-place/'+id);
       axios.get('/places-details').then(({data})=>{
         setPlacesDetails(data);
       })
+    }
+    if(redirectToLogin){
+      return <Navigate to={'/login'} />
     }
   return (
     <div className="">

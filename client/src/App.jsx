@@ -18,7 +18,7 @@ function App() {
   return (
     <UserContextProvider>
     <Routes>
-      <Route path="/" element={<Layout/>}>
+      <Route element={<Layout/>}>
       <Route index element={<Home/>}/>
       <Route path="/login" element ={<Login/>}/>
       <Route path="/register" element={<Register/>}/>
@@ -29,6 +29,7 @@ function App() {
       <Route path="account/bookings/:id" element={<SingleBooking/>}/>
       <Route path="account/accommodation/:id" element={<PlacesForm/>}/>
       <Route path="place/:id" element={<Place/>}/>
+      <Route path="*" element={<Home/>} />
       </Route>
     </Routes>
     </UserContextProvider>

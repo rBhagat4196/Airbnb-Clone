@@ -1,18 +1,23 @@
 import axios from "axios";
 import { useUserContext } from "../context/userContext"
 import {  Navigate, useParams } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AccountNavbar from "../components/AccountNavbar";
 
 const Account = () => {
-  const {user,ready} = useUserContext();
-  
+  const {user} = useUserContext();
+  const [ready,setReady] = useState(false);
   const [redirect,SetRedirect] = useState(false);
   const {setUser} = useUserContext();
   let {subpage} = useParams();
-  if(!ready){
-    return 'Loading';
-  }
+  useEffect(()=>{
+    if(user){
+      setReady(true)
+    }
+    else{
+      SetRedirect(true)
+    }
+  },[user])
   if(subpage == undefined){
     subpage = 'profile'
   }
