@@ -6,6 +6,7 @@ import axios from "axios";
 import {AiFillDelete} from "react-icons/ai"
 import { useUserContext } from "../context/userContext";
 import {BsBuildingsFill} from "react-icons/bs"
+import TruncateText from "../components/TruncateText";
 const PlacesPage = () => {
   const {user,loaded} = useUserContext();
   const [redirectToLogin,setRedirectToLogin] = useState(false);
@@ -42,7 +43,7 @@ const PlacesPage = () => {
         </Link>
       </div>
       <div className="flex justify-center">
-      <div className=" mt-5 grid gap-6  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 ">
+      <div className=" mt-2 grid gap-6  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 ">
       {placesDetails && placesDetails.length > 0 && placesDetails.map(place =>(
         <div key={place._id} className="relative">
           <div className="absolute top-10 right-5 cursor-pointer rounded-full p-1 bg-red-300 border-4">
@@ -55,9 +56,13 @@ const PlacesPage = () => {
                 <div>
                   <img className="w-[300px] h-[200px] object-cover rounded-xl p-2 object-fil" src={'http://localhost:4000/uploads/'+place.mainImage} alt="" />
                 </div>
-                <div className="p-5">
-                  <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">{place.title}</h5>
-                  <p className="h-[100px] mb-3 font-normal text-gray-700 overflow-hidden">{place.description}</p>
+                <div className="p-3">
+                  <h5 className="mb-2 text-2xl font-bold font-mono tracking-tight text-gray-900">
+                  <TruncateText text={place.title} maxLength={50}/>
+                    </h5>
+                  <p className="h-[100px] mb-3 font-mono text-gray-700 overflow-hidden">
+                    <TruncateText text={place.description} maxLength={100}/>
+                    </p>
                   
                 </div>
             </div>

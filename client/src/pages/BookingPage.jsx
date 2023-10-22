@@ -12,7 +12,6 @@ const BookingPage = () => {
   const [bookings,setBookings] = useState([]);
   const [redirect,setRedirect] = useState(false)
   useEffect(()=>{
-    console.log(user)
     if(!user && loaded){
       setRedirect(true);
     }

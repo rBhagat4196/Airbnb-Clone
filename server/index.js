@@ -265,10 +265,16 @@ app.get('/bookings-detail',async(req,res)=>{
   // res.json(Bookings.find({user:userData.id}));
 })
 
+app.get('/booking-details/:id',async(req,res)=>{
+  const {id} = req.params;
+  console.log(id)
+  res.json(await Bookings.findById(id).populate('placeId'))
+  // res.json(Bookings.find({user:userData.id}));
+})
+
 app.delete('/delete-booking/:id',async(req,res)=>{
   const {id} = req.params;
   await Bookings.findByIdAndDelete(id);
-  res.json("successfully delted");
 });
 
 app.listen(4000, () => {

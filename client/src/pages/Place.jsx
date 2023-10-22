@@ -33,9 +33,9 @@ const Place = () => {
       <div className="mt-8 mb-8 grid gap-8 grid-cols-1 md:grid-cols-[2fr_1fr]">
           <div>
             <div>  
-            <h2 className="font-bold text-2xl mt-2">Description</h2>
+            <h2 className="font-bold text-2xl mt-2 font-mono">Description</h2>
             {placeDetails.description && placeDetails.description.split('\n').map((para, index) => (
-    <p key={index} className="font-semibold text-gray-800">{para}</p>
+    <p key={index} className=" text-gray-800 font-mono">{para}</p>
   ))}
             </div>
         
@@ -57,7 +57,7 @@ const Place = () => {
             </div>
             <div className="mb-4 mt-2 text-sm text-gray-700 leading-5">
               {placeDetails.extraInfo && placeDetails.extraInfo.split('\n').map((para, index) => (
-                  <p key={index} className="font-semibold text-gray-800">
+                  <p key={index} className="font-mono text-gray-800">
                     {para}
                   </p>
               ))}
