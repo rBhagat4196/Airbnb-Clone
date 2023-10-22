@@ -281,14 +281,14 @@ app.get('/place/:query',async(req,res)=>{
   const {query} = req.params;
   // console.log(query)
   try {
-    const results = await Places.find({
-      $or: [
-        { 
-          title: { $regex: new RegExp(query, 'i') } }, // Case-insensitive search for "query" in "title"
-        {  address: { $regex: new RegExp(query, 'i') } } // Case-insensitive search for "query" in "address"
-      ]
-    });
-    res.json(results);
+      const results = await Places.find({
+        $or: [
+          { 
+            title: { $regex: new RegExp(query, 'i') } }, // Case-insensitive search for "query" in "title"
+            {  address: { $regex: new RegExp(query, 'i') } } // Case-insensitive search for "query" in "address"
+          ]
+        });
+        res.json(results);
   } catch (error) {
     res.status(500).json({ error: 'An error occurred while searching.' });
   }

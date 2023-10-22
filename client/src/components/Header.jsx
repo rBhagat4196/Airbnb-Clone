@@ -7,19 +7,18 @@ import { useState } from "react"
 const Header = () => {
   const [search,setSearch] = useState('')
   const [redirect, setRedirect] = useState(false);
-  const { user,setQuery,query} = useUserContext();
+  const { user,setQuery} = useUserContext();
   const handleSubmit = () => {
-    console.log(query)
     if (search.length > 0) {
       console.log(search)
-      setQuery(search)
+      // setQuery(search)
       setRedirect(true);
     }
   };
   
   const handleKeyDown = (event) => {
     if (event.key === "Enter" && search.length > 0) {
-      console.log(search);
+      // console.log(search);
       setQuery(search)
       setRedirect(true);
     }
