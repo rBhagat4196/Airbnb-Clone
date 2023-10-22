@@ -267,7 +267,7 @@ app.get('/bookings-detail',async(req,res)=>{
 
 app.get('/booking-details/:id',async(req,res)=>{
   const {id} = req.params;
-  console.log(id)
+  // console.log(id)
   res.json(await Bookings.findById(id).populate('placeId'))
   // res.json(Bookings.find({user:userData.id}));
 })
@@ -277,6 +277,22 @@ app.delete('/delete-booking/:id',async(req,res)=>{
   await Bookings.findByIdAndDelete(id);
 });
 
+app.get('/place/:query',async(req,res)=>{
+  const {query} = req.params;
+  // console.log(query)
+  try {
+    const results = await Places.find({
+      $or: [
+        { 
+          title: { $regex: new RegExp(query, 'i') } }, // Case-insensitive search for "query" in "title"
+        {  address: { $regex: new RegExp(query, 'i') } } // Case-insensitive search for "query" in "address"
+      ]
+    });
+    res.json(results);
+  } catch (error) {
+    res.status(500).json({ error: 'An error occurred while searching.' });
+  }
+})
 app.listen(4000, () => {
   console.log('Server is running on port 4000');
 });

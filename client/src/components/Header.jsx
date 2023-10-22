@@ -1,45 +1,49 @@
 import {BsSearch} from "react-icons/bs"
 import {RxHamburgerMenu} from "react-icons/rx"
 import {RiAccountBoxFill} from "react-icons/ri"
-import { Link,useNavigate  } from "react-router-dom"
+import { Link,Navigate  } from "react-router-dom"
 import { useUserContext } from "../context/userContext"
-import { useRef, useState } from "react"
+import { useState } from "react"
 const Header = () => {
-  const searchRef = useRef();
+  const [search,setSearch] = useState('')
   const [redirect, setRedirect] = useState(false);
-  const { user } = useUserContext();
-  const navigate = useNavigate(); 
+  const { user,setQuery,query} = useUserContext();
   const handleSubmit = () => {
-    if (searchRef.current.value.length > 0) {
+    console.log(query)
+    if (search.length > 0) {
+      console.log(search)
+      setQuery(search)
       setRedirect(true);
     }
   };
-  if (redirect) {
-    navigate('/places/results?search_query=' + searchRef.current.value);
-  }
-  const handleKeyPress = (event) => {
-    if (event.key === "Enter" && searchRef.current.value.length > 0) {
+  
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter" && search.length > 0) {
+      console.log(search);
+      setQuery(search)
       setRedirect(true);
     }
   };
   return (
     <header className="flex justify-between gap-1">
-        <a href="/" className="flex items-center">
+      <div className="flex items-center">
+        <a href="/" >
             <img src='/airbnb.svg' height={100} width={100} className="hidden lg:flex" />
             <img src="/airbnb-1.svg" className="lg:hidden w-8 h-8" />
           </a>
-          <div className="hidden border border-gray-500 py-2 px-4 rounded-full gap-2 shadow-md shadow-gray-300 md:flex">
-            <div>Anywhere</div>
+      </div>
+          <div className="hidden  border border-red-500  px-4 rounded-full gap-2 md:flex">
+            <div className="flex items-center">Anywhere</div>
             <div className="border border-l border-gray-300"></div>
-            <div>Any week</div>
+            <div className="flex items-center">Any week</div>
             <div className="border border-l border-gray-300"></div>
-            <div>Add guests</div>
+            <div className="flex items-center">Add guests</div>
             <div>
             </div>
           </div>
       <div className="flex gap-2">
         <div className="flex gap-1 w-[300px] md:w-[250px] lg:w-[400px]">
-          <input type="text" ref={searchRef} placeholder="Search..."  onKeyPress={handleKeyPress} />
+          <input type="text" value={search} placeholder="Search..."  onKeyDown={handleKeyDown} onChange={(e) => setSearch(e.target.value)} />
           <button className="text-white">
             <BsSearch
               size={20}
@@ -62,6 +66,7 @@ const Header = () => {
           )}
         </Link>
       </div>
+      {redirect && <Navigate to={'/places/results?search_query=' + search} />}
     </header>
   );
 };
