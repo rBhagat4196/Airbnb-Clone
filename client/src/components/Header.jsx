@@ -11,7 +11,7 @@ const Header = () => {
   const handleSubmit = () => {
     if (search.length > 0) {
       console.log(search)
-      // setQuery(search)
+      setQuery(search);
       setRedirect(true);
     }
   };
@@ -40,7 +40,6 @@ const Header = () => {
             <div>
             </div>
           </div>
-      <div className="flex gap-2">
         <div className="flex gap-1 w-[300px] md:w-[250px] lg:w-[400px]">
           <input type="text" value={search} placeholder="Search..."  onKeyDown={handleKeyDown} onChange={(e) => setSearch(e.target.value)} />
           <button className="text-white">
@@ -51,10 +50,11 @@ const Header = () => {
             />
           </button>
         </div>
+      <div className="flex gap-2">
 
         <Link
           to={user ? "/account" : "login"}
-          className="flex items-center gap-2 border border-gray-300 rounded-full py-2 px-4"
+          className="flex items-center gap-2 border border-gray-300 rounded-full py-2 px-4" onClick={()=> setRedirect(false)}
         >
           <RxHamburgerMenu className="w-6 h-6" />
           <div className="bg-gray-500 text-white rounded-full border border-gray-500 overflow-hidden">
