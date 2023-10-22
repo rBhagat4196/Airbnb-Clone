@@ -8,18 +8,20 @@ const Header = () => {
   const searchRef = useRef();
   const [redirect, setRedirect] = useState(false);
   const { user } = useUserContext();
-  const navigate = useNavigate(); // Use useNavigate for programmatic navigation
-
+  const navigate = useNavigate(); 
   const handleSubmit = () => {
     if (searchRef.current.value.length > 0) {
       setRedirect(true);
     }
   };
-
   if (redirect) {
     navigate('/places/results?search_query=' + searchRef.current.value);
   }
-
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter" && searchRef.current.value.length > 0) {
+      setRedirect(true);
+    }
+  };
   return (
     <header className="flex justify-between gap-1">
         <a href="/" className="flex items-center">
@@ -37,7 +39,7 @@ const Header = () => {
           </div>
       <div className="flex gap-2">
         <div className="flex gap-1 w-[300px] md:w-[250px] lg:w-[400px]">
-          <input type="text" ref={searchRef} placeholder="Search..." />
+          <input type="text" ref={searchRef} placeholder="Search..."  onKeyPress={handleKeyPress} />
           <button className="text-white">
             <BsSearch
               size={20}
