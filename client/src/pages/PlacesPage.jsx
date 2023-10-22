@@ -52,7 +52,7 @@ const PlacesPage = () => {
             />
           </div>
           <Link to={'/account/accommodation/'+place._id} >
-              <div className=" mt-4 w-[300px] h-[450px] rounded-2xl bg-red-200 border border-5 border-violet-400">
+              <div className=" mt-4 w-[300px] h-[450px] rounded-2xl bg-gray-300 border-2 border-violet-400">
                 <div>
                   <img className="w-[300px] h-[200px] object-cover rounded-xl p-2 object-fil" src={'http://localhost:4000/uploads/'+place.mainImage} alt="" />
                 </div>
