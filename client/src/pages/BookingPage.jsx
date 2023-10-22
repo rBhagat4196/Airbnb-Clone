@@ -7,17 +7,21 @@ import Image from "../components/Image";
 import {AiFillDelete} from "react-icons/ai"
 import { differenceInCalendarDays, format} from "date-fns";
 import { useUserContext } from "../context/userContext";
+import Loader from "../components/Loader";
 const BookingPage = () => {
   const {user,loaded} = useUserContext();
   const [bookings,setBookings] = useState([]);
   const [redirect,setRedirect] = useState(false)
+  const [loading,setLoading]  = useState(false)
   useEffect(()=>{
     if(!user && loaded){
       setRedirect(true);
     }
     else{
+      setLoading(true);
       axios.get('/bookings-detail').then(response=>{
         setBookings(response.data);
+        setLoading(false);
       })
     }
   },[loaded, user]);
@@ -35,6 +39,11 @@ const BookingPage = () => {
     <div>
       <AccountNavbar />
       <div>
+        {
+          loading && (
+            <Loader/>
+          )
+        }
         {bookings?.length > 0 && bookings.map(booking => (
           <div key={booking._id} className="flex justify-center">
           <div className="flex flex-col m-5 w-4/5 lg:w-1/2">
@@ -80,8 +89,9 @@ const BookingPage = () => {
         </div>
         </div>
         ))}
+        
         {
-          bookings.length == 0 && (
+        !loading && loaded &&  bookings.length == 0 && (
             <div className="flex flex-col gap-4 items-center justify-center h-[400px]">
               <img src="/cassette_3793546.png" className="h-40 w-40"/>
               <h1 className="text-3xl font-bold text-gray-600 p-2">
@@ -90,6 +100,11 @@ const BookingPage = () => {
             </div>
           )
         }
+        {
+        !loaded && (
+          <Loader/>
+        )
+      }
       </div>
     </div>
   );

@@ -5,22 +5,26 @@ import PlaceGallery from "../components/PlaceGallery";
 import BookingWidget from "../components/BookingWidget";
 import PlacePerks from "../components/PlacePerks";
 import {GrLocation} from "react-icons/gr"
+import Loader from "../components/Loader"
 const Place = () => {
     const {id} = useParams();
     const [placeDetails,setPlaceDetails] = useState([]);
+    const [Loading,setLoading] = useState(false)
     useEffect(()=>{
+      setLoading(true)
       try{
         axios.get('/places-details/'+id).then(response=>{
             setPlaceDetails(response.data)
-        })
-      }
-      catch(err){
-        console.log(err);
-        return <Navigate to={'/login'}/>
-      }
+            setLoading(false);
+          })
+        }
+        catch(err){
+          console.log(err);
+          return <Navigate to={'/login'}/>
+        }
     },[id])
     if(!placeDetails) return 'Loading..'
-  return (
+  return ( Loading ? <Loader/> : (
     <div className="flex justify-center ">
 
     <div className=" rounded-2xl flex justify-center flex-col lg:w-4/6 mt-4 bg-gray-100 p-2 border-red-400">
@@ -35,7 +39,7 @@ const Place = () => {
             <div>  
             <h2 className="font-bold text-2xl mt-2 font-mono">Description</h2>
             {placeDetails.description && placeDetails.description.split('\n').map((para, index) => (
-    <p key={index} className=" text-gray-800 font-mono">{para}</p>
+              <p key={index} className=" text-gray-800 font-mono">{para}</p>
   ))}
             </div>
         
@@ -67,6 +71,7 @@ const Place = () => {
     </div>
     </div>
     </div>
+  )
   )
 }
 

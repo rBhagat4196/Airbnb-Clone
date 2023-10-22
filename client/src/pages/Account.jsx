@@ -2,6 +2,7 @@ import axios from "axios";
 import { useUserContext } from "../context/userContext"
 import {  Navigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import Loader from "../components/Loader";
 import AccountNavbar from "../components/AccountNavbar";
 
 const Account = () => {
@@ -35,6 +36,11 @@ const Account = () => {
   return (
     <div>
       <AccountNavbar/>
+      {
+        !loaded && (
+          <Loader/>
+        )
+      }
       {loaded && user && subpage == 'profile' && (
         <div className="mt-4 text-center max-w-lg mx-auto">
           <div className="bg-white rounded-lg p-8  w-80 mx-auto">

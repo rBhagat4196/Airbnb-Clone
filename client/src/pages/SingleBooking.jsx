@@ -5,15 +5,22 @@ import axios from "axios";
 import { GrLocation } from "react-icons/gr";
 import PlaceGallery from "../components/PlaceGallery";
 import { format } from "date-fns";
+import Loader from "../components/Loader";
 const SingleBooking = () => {
   const {user,loaded} = useUserContext();
   const [redirectToLogin,setRedirectToLogin] = useState(false);
-  const [booking,setBooking] = useState('')
+  const [booking,setBooking] = useState('');
   const {id} = useParams();
+  const [loading,setLoading] = useState(false);
   useEffect(()=>{
+    setLoading(true)
     if(!user && loaded) setRedirectToLogin(true)
     else{
-     axios.get('/booking-details/'+id).then(response => setBooking(response.data));
+     axios.get('/booking-details/'+id).then(response =>{
+       setBooking(response.data)
+       setLoading(false)
+      } 
+     );
   }
 
 
@@ -24,7 +31,7 @@ const SingleBooking = () => {
 if(booking){
   console.log(booking)
 }
-  return (
+  return (loading ? <Loader/> : (
     <div className="flex justify-center">
     <div className="lg:w-4/6 flex justify-center">
       {booking && (
@@ -53,6 +60,7 @@ if(booking){
       )}
     </div>
     </div>
+  )
   )
 }
 

@@ -2,20 +2,23 @@ import axios from "axios";
 import { useState } from "react"
 import { Link, Navigate} from "react-router-dom"
 import { useUserContext } from "../context/userContext";
+import Loader from "../components/Loader";
 const Login = () => {
   const [email,setEmail] = useState('');
   const [password,setPassword]=useState('');
   const [redirect,setRedirect]= useState(false);
-  const {user,setUser} = useUserContext();
+  const [loading,setLoading] = useState(false);
+  const {setUser} = useUserContext();
   const loginUser = async(e)=>{
     e.preventDefault();
     try{
+      setLoading(true);
      const {data} =  await axios.post('/login',{
         email,
         password
       });
       setUser(data);
-      alert("Login Successful");
+      setLoading(false)
       setRedirect(true);
     }
     catch(error){
@@ -25,7 +28,7 @@ const Login = () => {
   if(redirect){
     return <Navigate to={'/'}/>
   }
-  return (
+  return ( loading ? <Loader/> : (
     <div className="mt-4 grow flex items-center justify-around">
         <div>
         <h1 className="-mt-48 text-4xl text-center">Login</h1>
@@ -44,6 +47,7 @@ const Login = () => {
         </div>
         </div>
     </div>
+    )
   )
 }
 export default Login

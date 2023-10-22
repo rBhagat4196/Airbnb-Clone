@@ -1,14 +1,16 @@
 import axios from "axios";
 import { useState } from "react";
 import { Link, Navigate } from "react-router-dom"
+import Loader from "../components/Loader"
 const Register = () => {
     const [name,setName] = useState('');
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
-    const [redirect,setRedirect] = useState(false)
+    const [redirect,setRedirect] = useState(false);
+    const [loading,setLoading] = useState(false)
     const registerUser = async (e) => {
         e.preventDefault();
-    
+        setLoading(true)
         try {
           await axios.post('/register', {
             name,
@@ -16,6 +18,7 @@ const Register = () => {
             password,
           });
           setRedirect(true);
+          setLoading(false);
           // Handle the response, e.g., show a success message or redirect to another page.
         } catch (error) {
           // Handle errors, e.g., show an error message to the user.
@@ -25,8 +28,9 @@ const Register = () => {
       if(redirect){
         return <Navigate to={'/login'}/>
       }
-   return (
-    <div className="mt-4 grow flex items-center justify-around">
+   return ( loading ? <Loader/> : (
+
+     <div className="mt-4 grow flex items-center justify-around">
         <div>
         <h1 className="-mt-48 text-4xl text-center">Register</h1>
         <form className="max-w-md mx-auto mt-4" onSubmit={registerUser}>
@@ -45,6 +49,7 @@ const Register = () => {
         </div>
         </div>
     </div>
+      )
   )
 }
 

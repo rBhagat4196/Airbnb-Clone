@@ -2,16 +2,26 @@ import { useEffect , useState } from "react"
 import {Link} from "react-router-dom"
 import axios from "axios"
 import Image from "../components/Image"
+import Loader from "../components/Loader"
 const Home = () => {
   const [places,setPlaces] = useState([]);
+  const [loading,setLoading] = useState(false)
   useEffect(()=>{
+    setLoading(true)
     axios.get('/places-all').then(response =>{
       setPlaces(response.data);
+      setLoading(false);
     })
   },[])
   return (
+    <>
+    {
+        loading && (
+          <Loader/>
+        )
+      }
     <div className="mt-8 grid gap-x-6 gap-y-8 grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
-    {places.length > 0 && places.map(place => (
+    {!loading && places.length > 0 && places.map(place => (
       <div key={place._id}>
 
       <Link to={'/place/'+place._id}>
@@ -29,6 +39,7 @@ const Home = () => {
         </div>
     ))}
   </div>
+    </>
   )
 }
 export default Home

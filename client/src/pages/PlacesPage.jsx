@@ -7,12 +7,14 @@ import {AiFillDelete} from "react-icons/ai"
 import { useUserContext } from "../context/userContext";
 import {BsBuildingsFill} from "react-icons/bs"
 import TruncateText from "../components/TruncateText";
+import Loader from "../components/Loader"
 const PlacesPage = () => {
   const {user,loaded} = useUserContext();
   const [redirectToLogin,setRedirectToLogin] = useState(false);
     const [placesDetails , setPlacesDetails] = useState([]);
-    
+    const [loading ,setLoading] = useState(false);
     useEffect(()=>{
+      setLoading(true)
       console.log(user)
       if(!user && loaded){
         setRedirectToLogin(true);
@@ -20,6 +22,7 @@ const PlacesPage = () => {
       else{
         axios.get('/places-details').then(({data})=>{
           setPlacesDetails(data);
+          setLoading(false);
         })
       }
     },[loaded, user]);
@@ -44,7 +47,7 @@ const PlacesPage = () => {
       </div>
       <div className="flex justify-center">
       <div className=" mt-2 grid gap-6  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 ">
-      {placesDetails && placesDetails.length > 0 && placesDetails.map(place =>(
+      {!loading && placesDetails && placesDetails.length > 0 && placesDetails.map(place =>(
         <div key={place._id} className="relative">
           <div className="absolute top-10 right-5 cursor-pointer rounded-full p-1 bg-red-300 border-4">
             <AiFillDelete className="h-6 w-6" 
@@ -72,8 +75,13 @@ const PlacesPage = () => {
       }
       </div>
     </div>
+    {
+          loading && (
+            <Loader />
+          )
+        }
       {
-       placesDetails==null || placesDetails.length == 0 &&(
+       !loading && placesDetails==null || placesDetails.length == 0 &&(
           <div className="flex flex-col gap-4 items-center justify-center h-[400px]">
               <BsBuildingsFill className="h-40 w-40 text-[#f37e6f]"/>
               <h1 className="text-3xl font-bold text-gray-600 p-2">
@@ -82,6 +90,7 @@ const PlacesPage = () => {
             </div>
         )
       }
+
     </div>
   )
 }

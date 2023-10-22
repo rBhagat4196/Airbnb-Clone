@@ -5,7 +5,9 @@ import { useEffect, useState } from "react"
 import axios from "axios";
 import {AiOutlineStar} from "react-icons/ai"
 import { useUserContext } from "../context/userContext";
+import Loader from "./Loader";
 const PlacesForm = () => {
+    const [loading,setLoading] = useState(false);
     const {id} = useParams();
     const [title,setTitle] = useState('');
     const [address,setAddress] = useState('');
@@ -50,7 +52,7 @@ const PlacesForm = () => {
   
     const savePlace = async(e)=>{
       e.preventDefault();
-      
+      setLoading(true);
       if(id){
         let sanitzedExtra='';
         let sanitzedText='';
@@ -73,6 +75,7 @@ const PlacesForm = () => {
             id,    //   id for updata 
         })
         setRedirect(true)
+        setLoading(false)
       }
       else{
         // let mainImage = ''
@@ -95,16 +98,22 @@ const PlacesForm = () => {
               mainImage,
               price,
             })
-            setRedirect(true)
+            setRedirect(true);
+            setLoading(false)
         }
     }
     useEffect(()=>{
+        setLoading(true)
         if(!user && loaded){
-            setRedirectToLogin(true)
+            setRedirectToLogin(true);
         }
-        if(!id) return;
-        else{
 
+        if(!id){
+            setLoading(false)
+            return;
+        } 
+        else{
+            setLoading(true)
             axios.get('/places-details/'+id).then(response =>{
                 const {data} = response;
                 setTitle(data.title);
@@ -118,6 +127,8 @@ const PlacesForm = () => {
                 setMaxGuests(data.maxGuests);
                 setMainImage(data.mainImage);
                 setPrice(data.price);
+                setLoading(false);
+                setLoading(false);
             });
         }
     },[id, loaded, user])
@@ -129,8 +140,9 @@ const PlacesForm = () => {
     }
     if(mainImage == '' && addedPhotos.length > 0) setMainImage(addedPhotos[0])
     // console.log(addedPhotos)
-  return (
-    <div>
+  return (loading ? <Loader/> : (
+
+      <div>
       <form onSubmit={savePlace}>
             <h1 className="text-2xl mt-4">
                 Title
@@ -224,6 +236,7 @@ const PlacesForm = () => {
             <button className="w-full p-1 mt-2 rounded-xl text-white font-bold text-center bg-red-400">Save</button>
         </form>
     </div>
+  )
   )
 }
 
