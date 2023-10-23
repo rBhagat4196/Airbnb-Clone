@@ -29,8 +29,8 @@ function App() {
       <Route path="account/bookings" element={<BookingPage/>}/>
       <Route path="account/bookings/:id" element={<SingleBooking/>}/>
       <Route path="account/accommodation/:id" element={<PlacesForm/>}/>
+      <Route path="search/:query" element={<QueryPage/>}/>
       <Route path="place/:id" element={<Place/>}/>
-      <Route path="places/:id" element={<QueryPage/>}/>
       <Route path="*" element={<Home/>} />
       </Route>
     </Routes>

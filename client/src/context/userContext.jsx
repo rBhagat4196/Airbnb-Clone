@@ -8,7 +8,6 @@ const UserContext = createContext();
 export function UserContextProvider({ children }) {
   const [user, setUser] = useState();
   const [loaded,setLoaded] = useState(false)
-  const [query,setQuery] = useState('')
   const navigate = useNavigate();
   useEffect(()=>{
     const fetchData = async()=>{
@@ -36,8 +35,6 @@ export function UserContextProvider({ children }) {
       setUser,
       loaded,
       setLoaded,
-      query,
-      setQuery,
     }}>
       {children}
     </UserContext.Provider>
