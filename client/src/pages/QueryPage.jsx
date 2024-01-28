@@ -1,8 +1,9 @@
-import axios from "axios";
+// import API from "API";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import Image from "../components/Image";
 import Loader from "../components/Loader";
+import { API } from "../../utils";
 
 const QueryPage = () => {
   const [places, setPlaces] = useState([]);
@@ -11,7 +12,7 @@ const QueryPage = () => {
   console.log(query)
   useEffect(() => {
     setLoading(true);
-    axios.get("/place/"+query).then((response) => {
+    API.get("/place/"+query).then((response) => {
         setPlaces(response.data);
         setLoading(false);
       });

@@ -1,8 +1,9 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useEffect, useState } from "react";
 import PropTypes from 'prop-types';
-import axios from "axios";
+// import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { API } from "../../utils";
 const UserContext = createContext();
 
 export function UserContextProvider({ children }) {
@@ -13,10 +14,11 @@ export function UserContextProvider({ children }) {
     const fetchData = async()=>{
       try{
         if(!user){
-          const {data} = await axios.get('/profile');
+          const {data} = await API.get('/profile');
           if(data != null){
             const {name,email,_id} = data;
             setUser({name,email,_id});
+            
           }
           setLoaded(true);
           

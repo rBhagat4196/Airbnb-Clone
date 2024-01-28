@@ -2,10 +2,11 @@ import { Navigate, useParams} from "react-router-dom"
 import {BsUpload} from "react-icons/bs"
 import Perks from "./Perks"
 import { useEffect, useState } from "react"
-import axios from "axios";
+// import API from "API";
 import {AiOutlineStar} from "react-icons/ai"
 import { useUserContext } from "../context/userContext";
 import Loader from "./Loader";
+import { API } from "../../utils"
 const PlacesForm = () => {
     const [loading,setLoading] = useState(false);
     const {id} = useParams();
@@ -26,7 +27,7 @@ const PlacesForm = () => {
     const [redirectToLogin,setRedirectToLogin] = useState(false);
     const addPhotoByLink=async(e)=>{
       e.preventDefault();
-      const {data:filename}=await axios.post('/upload-by-link',{link : photoLink})
+      const {data:filename}=await API.post('/upload-by-link',{link : photoLink})
       setAddedPhotos((prev) =>{
           return [...prev,filename];
       })
@@ -38,7 +39,7 @@ const PlacesForm = () => {
       for(let i=0;i<files.length ;i++){
           data.append('photos',files[i])
       }
-      axios.post('/upload',data,{
+      API.post('/upload',data,{
           headers:{'Content-Type':'multipart/form-data'}
       }).then(response =>{
           const {data : filenames} =response;
@@ -60,7 +61,7 @@ const PlacesForm = () => {
             sanitzedText=description.split('\n').map(para => para.trim()).join('\n');
         if(extraInfo)
             sanitzedExtra = extraInfo.split('\n').map(para => para.trim()).join('\n')
-        axios.put('/places',{
+        API.put('/places',{
             title,
             address,
             addedPhotos,
@@ -85,7 +86,7 @@ const PlacesForm = () => {
             sanitzedText=description.split('\n').map(para => para.trim()).join('\n');
         if(extraInfo)
             sanitzedExtra = extraInfo.split('\n').map(para => para.trim()).join('\n')
-          await axios.post('/places',{
+          await API.post('/places',{
               title,
               address,
               addedPhotos,
@@ -114,7 +115,7 @@ const PlacesForm = () => {
         } 
         else{
             setLoading(true)
-            axios.get('/places-details/'+id).then(response =>{
+            API.get('/places-details/'+id).then(response =>{
                 const {data} = response;
                 setTitle(data.title);
                 setAddress(data.address);

@@ -1,14 +1,14 @@
 import { useEffect , useState } from "react"
 import {Link} from "react-router-dom"
-import axios from "axios"
 import Image from "../components/Image"
 import Loader from "../components/Loader"
+import { API } from "../../utils"
 const Home = () => {
   const [places,setPlaces] = useState([]);
   const [loading,setLoading] = useState(false)
   useEffect(()=>{
     setLoading(true)
-    axios.get('/places-all').then(response =>{
+    API.get('/places-all').then(response =>{
       setPlaces(response.data);
       setLoading(false);
     })

@@ -1,4 +1,4 @@
-import axios from "axios";
+import {API} from "../../utils/index";
 import { useUserContext } from "../context/userContext"
 import {  Navigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -22,7 +22,7 @@ const Account = () => {
  
   const logOut = async()=>{
     try{
-      await axios.post('/logout');
+      await API.post('/logout');
       SetRedirect(true);
       setUser(null)
     }

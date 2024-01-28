@@ -1,13 +1,14 @@
 /* eslint-disable react/no-unknown-property */
 import { useEffect, useState } from "react"
 import AccountNavbar from "../components/AccountNavbar"
-import axios from "axios";
+// import API from "API";
 import { Link, Navigate } from "react-router-dom";
 import Image from "../components/Image";
 import {AiFillDelete} from "react-icons/ai"
 import { differenceInCalendarDays, format} from "date-fns";
 import { useUserContext } from "../context/userContext";
 import Loader from "../components/Loader";
+import { API } from "../../utils";
 const BookingPage = () => {
   const {user,loaded} = useUserContext();
   const [bookings,setBookings] = useState([]);
@@ -19,7 +20,7 @@ const BookingPage = () => {
     }
     else{
       setLoading(true);
-      axios.get('/bookings-detail').then(response=>{
+      API.get('/bookings-detail').then(response=>{
         setBookings(response.data);
         setLoading(false);
       })
@@ -27,8 +28,8 @@ const BookingPage = () => {
   },[loaded, user]);
   
   const deleteBooking = async(id)=>{
-    await axios.delete('/delete-booking/'+id);
-    axios.get('/bookings-detail').then(({data})=>{
+    await API.delete('/delete-booking/'+id);
+    API.get('/bookings-detail').then(({data})=>{
         setBookings(data);
       })
   }

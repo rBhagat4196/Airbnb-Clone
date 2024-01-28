@@ -1,4 +1,5 @@
-import axios from "axios";
+// import API from "API";
+import { API } from "../../utils";
 import { useEffect, useState } from "react";
 import { Navigate, useParams } from "react-router-dom"
 import PlaceGallery from "../components/PlaceGallery";
@@ -13,7 +14,7 @@ const Place = () => {
     useEffect(()=>{
       setLoading(true)
       try{
-        axios.get('/places-details/'+id).then(response=>{
+        API.get('/places-details/'+id).then(response=>{
             setPlaceDetails(response.data)
             setLoading(false);
           })

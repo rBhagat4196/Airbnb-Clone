@@ -15,25 +15,17 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 import Places from './models/placeModel.js';
 import Bookings from './models/bookingModel.js';
-import { rejects } from 'assert';
 
 
 // initializers
 dotenv.config();
 const app = express();
-
-
-// options
-const corsOptions = {
-    credentials: true,
-    origin: 'http://localhost:5173',
-};
 const salt = await bcrypt.genSalt();
 
 
 // middlewares
 app.use(express.json());
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(cookieParser());
 app.use('/uploads',express.static(__dirname+'/uploads/'));
 
@@ -43,6 +35,9 @@ connectDb(process.env.MONGO_URL);
 
 
 // endpoints or request
+app.get('/test',(req,res)=>{
+  res.send("connected")
+})
 app.post('/register',async(req,res)=>{
     try{
         const {name,email,password} = req.body;

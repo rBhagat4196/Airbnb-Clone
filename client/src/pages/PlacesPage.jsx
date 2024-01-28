@@ -2,12 +2,13 @@ import { Link, Navigate} from "react-router-dom"
 import {AiOutlinePlusCircle} from "react-icons/ai"
 import AccountNavbar from "../components/AccountNavbar";
 import { useEffect, useState } from "react";
-import axios from "axios";
+// import API from "API";
 import {AiFillDelete} from "react-icons/ai"
 import { useUserContext } from "../context/userContext";
 import {BsBuildingsFill} from "react-icons/bs"
 import TruncateText from "../components/TruncateText";
 import Loader from "../components/Loader"
+import { API } from "../../utils";
 const PlacesPage = () => {
   const {user,loaded} = useUserContext();
   const [redirectToLogin,setRedirectToLogin] = useState(false);
@@ -20,7 +21,7 @@ const PlacesPage = () => {
         setRedirectToLogin(true);
       }
       else{
-        axios.get('/places-details').then(({data})=>{
+        API.get('/places-details').then(({data})=>{
           setPlacesDetails(data);
           setLoading(false);
         })
@@ -28,8 +29,8 @@ const PlacesPage = () => {
     },[loaded, user]);
 
     const deltePlaces = async(id)=>{
-      await axios.delete('/delete-place/'+id);
-      axios.get('/places-details').then(({data})=>{
+      await API.delete('/delete-place/'+id);
+      API.get('/places-details').then(({data})=>{
         setPlacesDetails(data);
       })
     }

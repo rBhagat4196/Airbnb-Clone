@@ -1,4 +1,5 @@
-import axios from "axios";
+// import API from "API";
+import { API } from "../../utils";
 import { useState } from "react";
 import { Link, Navigate } from "react-router-dom"
 import Loader from "../components/Loader"
@@ -12,7 +13,7 @@ const Register = () => {
         e.preventDefault();
         setLoading(true)
         try {
-          await axios.post('/register', {
+          await API.post('/register', {
             name,
             email,
             password,

@@ -1,8 +1,9 @@
-import axios from "axios";
+
 import { useState } from "react"
 import { Link, Navigate} from "react-router-dom"
 import { useUserContext } from "../context/userContext";
 import Loader from "../components/Loader";
+import { API } from "../../utils";
 const Login = () => {
   const [email,setEmail] = useState('');
   const [password,setPassword]=useState('');
@@ -13,15 +14,16 @@ const Login = () => {
     e.preventDefault();
     try{
       setLoading(true);
-     const {data} =  await axios.post('/login',{
+     const {data} =  await API.post('/login',{
         email,
         password
       });
       setUser(data);
-      setLoading(false)
+      setLoading(false);
       setRedirect(true);
     }
     catch(error){
+      setLoading(false)
       alert("Login Failed");
     }
   }

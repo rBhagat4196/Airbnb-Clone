@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { useUserContext } from "../context/userContext"
 import { Navigate, useParams } from "react-router-dom";
-import axios from "axios";
+// import API from "API";
 import { GrLocation } from "react-icons/gr";
 import PlaceGallery from "../components/PlaceGallery";
 import { format } from "date-fns";
 import Loader from "../components/Loader";
+import { API } from "../../utils";
 const SingleBooking = () => {
   const {user,loaded} = useUserContext();
   const [redirectToLogin,setRedirectToLogin] = useState(false);
@@ -16,7 +17,7 @@ const SingleBooking = () => {
     setLoading(true)
     if(!user && loaded) setRedirectToLogin(true)
     else{
-     axios.get('/booking-details/'+id).then(response =>{
+     API.get('/booking-details/'+id).then(response =>{
        setBooking(response.data)
        setLoading(false)
       } 

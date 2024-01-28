@@ -4,7 +4,7 @@ import Home from "./pages/Home"
 import Login from "./pages/Login"
 import Layout from "./components/Layout"
 import Register from "./pages/Register"
-import axios from "axios"
+
 import { UserContextProvider } from "./context/userContext"
 import Account from "./pages/Account"
 import PlacesPage from "./pages/PlacesPage"
@@ -13,8 +13,8 @@ import BookingPage from "./pages/BookingPage"
 import Place from "./pages/Place"
 import SingleBooking from "./pages/SingleBooking"
 import QueryPage from "./pages/QueryPage"
-axios.defaults.baseURL = 'http://localhost:4000'
-axios.defaults.withCredentials = true;
+
+
 function App() {
   return (
     <UserContextProvider>

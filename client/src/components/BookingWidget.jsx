@@ -2,9 +2,10 @@ import { useEffect, useState } from "react"
 
 /* eslint-disable react/prop-types */
 import { differenceInCalendarDays } from "date-fns/fp";
-import axios from "axios";
+// import axios from "axios";
 import { Navigate } from "react-router-dom";
 import { useUserContext } from "../context/userContext";
+import { API } from "../../utils";
 const BookingWidget = ({placeDetails}) => {
   const [checkIn,setCheckIn] = useState('');
   const [checkOut,setCheckOut] = useState('');
@@ -41,7 +42,7 @@ const BookingWidget = ({placeDetails}) => {
         price: bookingPrice,
         owner: user._id,
       };
-      axios.post("/booking", data);
+      API.post("/booking", data);
       setRedirect(true);
     }
   };
